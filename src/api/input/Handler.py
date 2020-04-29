@@ -9,8 +9,14 @@ class Handler:
 
     def zaregistruj(self, objekt, typ):
         if objekt.id >= 0:
-            self._objekty.append(objekt)
-            self._canvas.tag_bind(objekt.id, typ, lambda event: self.event(event, typ))
+            ind = 0
+            if self._objekty.__contains__(objekt):
+                ind = self._objekty.index(objekt)
+            else:
+                ind = len(self._objekty)
+                self._objekty.append(objekt)
 
-    def event(self, event, typ):
-        print(event, typ)
+            self._canvas.tag_bind(objekt.id, typ, lambda event: self.event(event, typ, objekt))
+
+    def event(self, event, typ, objekt):
+        print(event, typ, objekt)

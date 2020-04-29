@@ -4,22 +4,23 @@ from src.gui.core.Objekt import Objekt
 
 
 class Tlacitko(Objekt):
-    def __init__(self, canvas, nazov, pozicia, velkost, text, fill="white", text_color="black"):
+    def __init__(self, canvas, nazov, pozicia, velkost, tex1, tex2):
         super().__init__(pozicia, velkost)
         self._canvas = canvas  # type: tkinter.Canvas
         self._nazov = nazov
-        self._text = text
-        self._id = self._canvas.create_rectangle(pozicia, pozicia[0]+velkost[0], pozicia[1]+velkost[1], fill=fill)
-        self._text_id = self._canvas.create_text(pozicia[0]+velkost[0]/2, pozicia[1]+velkost[1]/2, text=text, fill=text_color)
+        self._tex1 = tex1
+        self._tex2 = tex2
+        self._id = self._canvas.create_image(pozicia[0]+velkost[0]/2, pozicia[1]+velkost[1]/2, image=tex1)
 
     @property
     def nazov(self):
         return self._nazov
 
-    @property
-    def text(self):
-        return self._text
+    def stlacene(self, stlac=True):
+        if stlac:
+            self._canvas.itemconfigure(self._id, image=self._tex2)
+        else:
+            self._canvas.itemconfigure(self._id, image=self._tex1)
 
-    @property
-    def text_id(self):
-        return self._text_id
+    def __eq__(self, other):
+        return self._id == other.id
