@@ -1,5 +1,7 @@
 import tkinter
 
+from src.gui.HlavnaObrazovka import HlavnaObrazovka
+
 
 class Program:
     def __init__(self):
@@ -10,7 +12,7 @@ class Program:
         self.tk.title("UNO")
 
         # setup Obrazovky
-        self.obrazovka = None
+        self.obrazovka = HlavnaObrazovka(self.tk, True)
 
         # loop
         self.loop()
