@@ -6,6 +6,7 @@ class Obrazovka:
         self._tk = tk  # type: tkinter.Tk
         self._canvas = tkinter.Canvas(master=tk, width=800, height=600)
         self._aktivna = False
+        self._handler = None
 
         if zobraz:
             self.zobraz()
@@ -22,8 +23,12 @@ class Obrazovka:
     def aktivna(self):
         return self._aktivna
 
-    def setup(self):
-        pass
+    def setup(self, handler):
+        self._handler = handler
 
     def loop(self):
         pass
+
+    @property
+    def canvas(self):
+        return self._canvas
