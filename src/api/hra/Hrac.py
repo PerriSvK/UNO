@@ -13,3 +13,6 @@ class Hrac:
     @tah.setter
     def tah(self, tah):
         self._tah = tah
+
+    def ruka(self):
+        return self._ruka

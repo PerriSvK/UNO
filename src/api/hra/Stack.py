@@ -1,4 +1,4 @@
-from random import random
+import random
 
 from src.api.hra.Karta import Karta
 
@@ -30,6 +30,9 @@ class Stack:
                     return karta
 
         return None
+
+    def karty(self):
+        return self._karty
 
     def miesat(self):
         random.shuffle(self._karty)

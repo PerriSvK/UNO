@@ -14,7 +14,12 @@ class HernaObrazovka(Obrazovka):
 
         # vykreslenie hry
         if self._hra is None:
-            self._hra = Hra()
+            return
+
+        # vytvorenie kariet
+        hrac = self._hra.hrac()
+        for karta in hrac.ruka().karty():
+            print(karta.farba, karta.hodnota)
 
         # zaregistrovanie do handler
         if handler is not None:
@@ -23,3 +28,6 @@ class HernaObrazovka(Obrazovka):
                 # handler.zaregistruj(tlac, "<Enter>")
                 # handler.zaregistruj(tlac, "<Leave>")
                 # handler.zaregistruj(tlac, "<Button-1>")
+
+    def nova_hra(self):
+        self._hra = Hra()

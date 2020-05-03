@@ -24,7 +24,7 @@ class Program:
         ##
         self.obr.append(HernaObrazovka(self.tk, True))
         #mh = MenuHandler(self, self.obr[0].canvas)
-        self.obr[1].setup(None)
+        #self.obr[1].setup(None)
 
         # nastavenie obrazovky
         self.obri = 0

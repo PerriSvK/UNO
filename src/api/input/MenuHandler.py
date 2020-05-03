@@ -6,8 +6,6 @@ class MenuHandler(Handler):
         super().__init__(program, canvas)
 
     def event(self, event, typ, objekt):
-        #print("MH:", event, typ, objekt)
-
         if typ == "<Enter>" or typ == "<Leave>":
             objekt.stlacene(typ == "<Enter>")
         elif typ == "<Button-1>":
@@ -16,3 +14,5 @@ class MenuHandler(Handler):
 
             if objekt.nazov == "nova_hra":
                 self._program.zmen_obrazovku(1)
+                self._program.obr[1].nova_hra()
+                self._program.obr[1].setup(None)
