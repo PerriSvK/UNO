@@ -1,6 +1,7 @@
 import tkinter
 
 from src.api.input.MenuHandler import MenuHandler
+from src.gui.HernaObrazovka import HernaObrazovka
 from src.gui.HlavnaObrazovka import HlavnaObrazovka
 
 
@@ -13,9 +14,20 @@ class Program:
         self.tk.title("UNO")
 
         # setup Obrazovky
-        self.obrazovka = HlavnaObrazovka(self.tk, True)
-        mh = MenuHandler(self, self.obrazovka.canvas)
-        self.obrazovka.setup(mh)
+        self.obr = []
+
+        ## Hlavne menu
+        self.obr.append(HlavnaObrazovka(self.tk, True))
+        mh = MenuHandler(self, self.obr[0].canvas)
+        self.obr[0].setup(mh)
+
+        ##
+        self.obr.append(HernaObrazovka(self.tk, True))
+        #mh = MenuHandler(self, self.obr[0].canvas)
+        self.obr[1].setup(None)
+
+        # nastavenie obrazovky
+        self.obri = 0
 
         # loop
         self.loop()
@@ -24,10 +36,14 @@ class Program:
         self.tk.mainloop()
 
     def loop(self):
-        if self.obrazovka is not None:
-            self.obrazovka.loop()
+        if len(self.obr) > 0 and self.obri >= 0:
+            self.obr[self.obri].loop()
 
         self.tk.after(1000//60, self.loop)
+
+    def zmen_obrazovku(self, obri):
+        self.obr[self.obri].skry()
+        self.obr[obri].zobraz()
 
 
 Program()

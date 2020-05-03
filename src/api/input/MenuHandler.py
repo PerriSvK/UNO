@@ -13,3 +13,6 @@ class MenuHandler(Handler):
         elif typ == "<Button-1>":
             if objekt.nazov == "ukoncit":
                 exit()
+
+            if objekt.nazov == "nova_hra":
+                self._program.zmen_obrazovku(1)
