@@ -16,6 +16,7 @@ class Hra:
                 self._hraci[j].ruka().pridaj_kartu(k)
 
         self._odhadzovaci = Stack()
+        self._odhadzovaci.pridaj_kartu(self._tahaci.vrchna())
 
     def hrac(self):
         return self._hraci[0]

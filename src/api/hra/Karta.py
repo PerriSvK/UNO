@@ -3,6 +3,9 @@ from src.api.hra.Hodnota import Hodnota
 
 
 class Karta:
+    VELKOST_X = 320
+    VELKOST_Y = 508
+
     def __init__(self, farba, hodnota):
         self._farba = farba
         self._hodnota = hodnota
@@ -49,3 +52,4 @@ class Karta:
             karty.append(Karta(Farba.BLACK, Hodnota.ZMENA))
 
         return karty
+
