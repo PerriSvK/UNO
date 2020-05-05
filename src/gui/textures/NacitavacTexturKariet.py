@@ -36,13 +36,17 @@ class NacitavacTexturKariet:
                     continue
                 kar = self._raw[farba][hodnota.value]
                 kar = kar.resize(res, Image.ANTIALIAS)
-                self._karty[farba][hodnota] = ImageTk.PhotoImage(kar)
+                #self._karty[farba][hodnota] = ImageTk.PhotoImage(kar)
+                self._karty[farba][hodnota] = kar
 
         self._karty[Farba.BLACK] = dict()
         self._karty[Farba.NONE] = dict()
-        self._karty[Farba.BLACK][Hodnota.PLUS4] = ImageTk.PhotoImage(self._raw[Farba.BLACK][0].resize(res, Image.ANTIALIAS))
-        self._karty[Farba.BLACK][Hodnota.ZMENA] = ImageTk.PhotoImage(self._raw[Farba.BLACK][1].resize(res, Image.ANTIALIAS))
-        self._karty[Farba.NONE][Hodnota.NONE] = ImageTk.PhotoImage(self._raw[Farba.NONE][0].resize(res, Image.ANTIALIAS))
+        # self._karty[Farba.BLACK][Hodnota.PLUS4] = ImageTk.PhotoImage(self._raw[Farba.BLACK][0].resize(res, Image.ANTIALIAS))
+        # self._karty[Farba.BLACK][Hodnota.ZMENA] = ImageTk.PhotoImage(self._raw[Farba.BLACK][1].resize(res, Image.ANTIALIAS))
+        # self._karty[Farba.NONE][Hodnota.NONE] = ImageTk.PhotoImage(self._raw[Farba.NONE][0].resize(res, Image.ANTIALIAS))
+        self._karty[Farba.BLACK][Hodnota.PLUS4] = self._raw[Farba.BLACK][0].resize(res, Image.ANTIALIAS)
+        self._karty[Farba.BLACK][Hodnota.ZMENA] = self._raw[Farba.BLACK][1].resize(res, Image.ANTIALIAS)
+        self._karty[Farba.NONE][Hodnota.NONE] = self._raw[Farba.NONE][0].resize(res, Image.ANTIALIAS)
 
     def karta(self, farba, hodnota):
         return self._karty[farba][hodnota]

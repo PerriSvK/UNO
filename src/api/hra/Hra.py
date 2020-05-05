@@ -5,7 +5,7 @@ from src.api.hra.Stack import Stack
 
 class Hra:
     def __init__(self):
-        self._hraci = [Hrac() for x in range(4)]
+        self._hraci = [Hrac(x > 0) for x in range(4)]
         # napln karty
         self._tahaci = Stack(Karta.balicek())
         self._tahaci.miesat()
@@ -29,3 +29,6 @@ class Hra:
 
     def tahaci(self):
         return self._tahaci
+
+    def hraci(self):
+        return self._hraci

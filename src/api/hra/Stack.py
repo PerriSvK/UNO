@@ -42,3 +42,9 @@ class Stack:
             return self._karty.pop(0)
 
         return None
+
+    def peek(self):
+        if len(self._karty) > 0:
+            return self._karty[0]
+
+        return None

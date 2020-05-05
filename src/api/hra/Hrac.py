@@ -2,9 +2,10 @@ from src.api.hra.Ruka import Ruka
 
 
 class Hrac:
-    def __init__(self):
+    def __init__(self, ai=False):
         self._ruka = Ruka()
         self._tah = False
+        self._ai = ai
 
     @property
     def tah(self):
@@ -16,3 +17,7 @@ class Hrac:
 
     def ruka(self):
         return self._ruka
+
+    @property
+    def ai(self):
+        return self._ai
