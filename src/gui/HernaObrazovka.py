@@ -1,5 +1,9 @@
+import threading
+from time import sleep
+
 from PIL import ImageTk
 
+from src.api.hra.AI import AI
 from src.api.hra.Farba import Farba
 from src.api.hra.Hodnota import Hodnota
 from src.api.hra.Hra import Hra
@@ -17,6 +21,7 @@ class HernaObrazovka(Obrazovka):
         self._cached_images = []
         self._tahaci_id = -1
         self._odhadzovaci_id = -1
+        self._n = 0
 
     def setup(self, handler=None):
         super().setup(handler)
@@ -56,7 +61,8 @@ class HernaObrazovka(Obrazovka):
                     karta.pozicia = (400 + (i - posun) * sirka, 560-th if ih == 0 else -10+th)  # +200 -> 400 na rozdavanie
 
                 if karta.id < 0:
-                    kimg = self._ntk.karta(karta.farba, karta.hodnota) if ih == 0 else self._ntk.karta(Farba.NONE, Hodnota.NONE)
+                    #kimg = self._ntk.karta(karta.farba, karta.hodnota) if ih == 0 else self._ntk.karta(Farba.NONE, Hodnota.NONE)
+                    kimg = self._ntk.karta(karta.farba, karta.hodnota)
                     kimg = kimg.rotate(90*ih, expand=1)
                     self._cached_images.append(ImageTk.PhotoImage(kimg))
                     karta.id = self._canvas.create_image(karta.pozicia, image=self._cached_images[-1])
@@ -91,8 +97,15 @@ class HernaObrazovka(Obrazovka):
             self.render()
             self._redraw = False
 
+        if type(self._hra.hraci()[self._hra.tah]) is AI:
+            self._n += 1
+            if self._n > 60:
+                self.hra.hraci()[self._hra.tah].urob_tah()
+                self._n = 0
+
     def nova_hra(self):
-        self._hra = Hra()  # type: Hra
+        self._hra = Hra(self)  # type: Hra
+        self._hra.setup()
 
     def redraw(self):
         self._redraw = True

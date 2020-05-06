@@ -1,4 +1,5 @@
 from src.api.hra.Karta import Karta
+from src.api.hra.Pravidla import Pravidla
 from src.api.input.Handler import Handler
 
 
@@ -15,17 +16,21 @@ class GameHandler(Handler):
 
     def event(self, event, typ, objekt):
         if typ == "<Button-1>":
-            if type(objekt) is Karta and self._program.obr[1].hra.hrac().tah:
-                kar = self._program.obr[1].hra.hrac().ruka().odstran_kartu(objekt)
-                if kar is not None:
-                    self._program.obr[1].hra.odhadzovaci().pridaj_kartu(kar)
+            if self._program.obr[1].hra.hrac().tah:
+                if type(objekt) is Karta:
+                    if not Pravidla.moze_polozit(self._program.obr[1].hra.odhadzovaci().peek(), objekt):
+                        return
 
-                self._canvas.delete(objekt.id)
+                    kar = self._program.obr[1].hra.hrac().ruka().odstran_kartu(objekt)
+                    if kar is not None:
+                        self._program.obr[1].hra.odhadzovaci().pridaj_kartu(kar)
 
-            if type(objekt) is int:
-                if self._program.obr[1].hra.hrac().tah:
+                    self._canvas.delete(objekt.id)
+
+                if type(objekt) is int:
                     kar = self._program.obr[1].hra.tahaci().vrchna()
                     if kar is not None:
                         self._program.obr[1].hra.hrac().ruka().pridaj_kartu(kar)
 
-            self._program.obr[1].redraw()
+                self._program.obr[1].hra.dalsi_hrac()
+                self._program.obr[1].redraw()
