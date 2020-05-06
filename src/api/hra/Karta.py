@@ -30,7 +30,7 @@ class Karta(Objekt):
         self._vykreslena = vykreslena
 
     def __eq__(self, other):
-        return self._farba == other.farba and self._hodnota == other.hodnota
+        return type(other) is Karta and self._farba == other.farba and self._hodnota == other.hodnota
 
     def rovnaka_farba(self, other):
         if type(other) is Karta:

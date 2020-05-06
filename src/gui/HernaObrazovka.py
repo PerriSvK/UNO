@@ -34,8 +34,7 @@ class HernaObrazovka(Obrazovka):
 
         # zaregistrovanie do handler
         if handler is not None:
-            for kart in self._hra.hrac().ruka().karty():
-                handler.zaregistruj(kart, "<Button-1>")
+            handler.zaregistruj(self._tahaci_id, "<Button-1>")
 
     def render(self):
         # vykreslenie kariet hracov
@@ -61,6 +60,10 @@ class HernaObrazovka(Obrazovka):
                     kimg = kimg.rotate(90*ih, expand=1)
                     self._cached_images.append(ImageTk.PhotoImage(kimg))
                     karta.id = self._canvas.create_image(karta.pozicia, image=self._cached_images[-1])
+
+                    if self._handler is not None:
+                        self._handler.zaregistruj(karta, "<Button-1>")
+
                 else:
                     self._canvas.coords(karta.id, karta.pozicia)
 
