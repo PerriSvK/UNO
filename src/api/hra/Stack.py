@@ -18,7 +18,7 @@ class Stack:
         for k in karty:
             self._karty.append(k)
 
-    def odsran_kartu(self, karta):
+    def odstran_kartu(self, karta):
         if type(karta) is int:
             k = self._karty.index(karta)
             self._karty.remove(k)
@@ -45,6 +45,6 @@ class Stack:
 
     def peek(self):
         if len(self._karty) > 0:
-            return self._karty[0]
+            return self._karty[-1]
 
         return None

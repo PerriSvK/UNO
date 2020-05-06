@@ -64,3 +64,5 @@ class Karta(Objekt):
 
         return karty
 
+    def __repr__(self):
+        return "FARBA: "+str(self._farba)+" HODNOTA: "+str(self._hodnota)

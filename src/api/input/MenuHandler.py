@@ -15,4 +15,4 @@ class MenuHandler(Handler):
             if objekt.nazov == "nova_hra":
                 self._program.zmen_obrazovku(1)
                 self._program.obr[1].nova_hra()
-                self._program.obr[1].setup(None)
+                self._program.obr[1].setup(self._program.handlers[1])

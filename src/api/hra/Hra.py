@@ -18,6 +18,8 @@ class Hra:
         self._odhadzovaci = Stack()
         self._odhadzovaci.pridaj_kartu(self._tahaci.vrchna())
 
+        self.hrac().tah = True
+
     def hrac(self):
         return self._hraci[0]
 

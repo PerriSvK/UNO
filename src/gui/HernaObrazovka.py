@@ -32,29 +32,29 @@ class HernaObrazovka(Obrazovka):
         for karta in hrac.ruka().karty():
             print(karta.farba, karta.hodnota)
 
-        # testovacie vykreslenie karty
-
-
         # zaregistrovanie do handler
         if handler is not None:
-            pass
-            # for tlac in self._tlacitka:
-                # handler.zaregistruj(tlac, "<Enter>")
-                # handler.zaregistruj(tlac, "<Leave>")
-                # handler.zaregistruj(tlac, "<Button-1>")
+            for kart in self._hra.hrac().ruka().karty():
+                handler.zaregistruj(kart, "<Button-1>")
 
     def render(self):
         # vykreslenie kariet hracov
         for ih, hrac in enumerate(self._hra.hraci()):
             karty = hrac.ruka().karty()
-            sirka = 500 // len(karty)  # sirka ruky
-            dlzka = 400 // len(karty)
+            if len(karty) == 0:
+                # TODO koniec hry
+                continue
+
+            sirka = min(500 // len(karty), 100)  # sirka ruky - maximalna sirka na kartu je 100
+            dlzka = min(400 // len(karty), 80)
             posun = len(karty) // 2
+            th = 20 if hrac.tah else 0
+
             for i, karta in enumerate(karty):
                 if ih % 2:
-                    karta.pozicia = (800 if ih == 1 else 0 ,300 + (i - posun) * dlzka)  # +200 -> 600 na rozdavanie
+                    karta.pozicia = (800-th if ih == 1 else 0+th ,300 + (i - posun) * dlzka)  # +200 -> 600 na rozdavanie
                 else:
-                    karta.pozicia = (400 + (i - posun) * sirka, 560 if ih == 0 else -10)  # +200 -> 400 na rozdavanie
+                    karta.pozicia = (400 + (i - posun) * sirka, 560-th if ih == 0 else -10+th)  # +200 -> 400 na rozdavanie
 
                 if karta.id < 0:
                     kimg = self._ntk.karta(karta.farba, karta.hodnota) if ih == 0 else self._ntk.karta(Farba.NONE, Hodnota.NONE)
@@ -73,6 +73,7 @@ class HernaObrazovka(Obrazovka):
 
         # vykreslenie odhadzovacieho balika
         odh_kar = self._hra.odhadzovaci().peek()
+        print("od.k.:", odh_kar)
         if self._odhadzovaci_id < 0:
             kk = self._ntk.karta(odh_kar.farba, odh_kar.hodnota)
             self._cached_images.append(ImageTk.PhotoImage(kk))
@@ -89,3 +90,10 @@ class HernaObrazovka(Obrazovka):
 
     def nova_hra(self):
         self._hra = Hra()  # type: Hra
+
+    def redraw(self):
+        self._redraw = True
+
+    @property
+    def hra(self):
+        return self._hra
