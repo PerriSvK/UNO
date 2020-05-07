@@ -88,13 +88,14 @@ class HernaObrazovka(Obrazovka):
 
         # vykreslenie tahacieho balika
         if self._hra.tahaci().__len__:
-            if self._odhadzovaci_id < 0:
+            if self._tahaci_id < 0:
                 kk = self._ntk.karta(Farba.NONE, Hodnota.NONE)
                 self._cached_images.append(ImageTk.PhotoImage(kk))
                 self._tahaci_id = self._canvas.create_image(300, 300, image=self._cached_images[-1])
 
         # vykreslenie odhadzovacieho balika
         odh_kar = self._hra.odhadzovaci().peek()
+        print("ODH:", odh_kar.farba, odh_kar.hodnota)
         if self._odhadzovaci_id < 0:
             kk = self._ntk.karta(odh_kar.farba, odh_kar.hodnota)
             self._cached_images.append(ImageTk.PhotoImage(kk))

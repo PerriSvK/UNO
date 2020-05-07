@@ -13,3 +13,6 @@ class Pravidla:
     def vykonaj_akciu(hra, karta):
         if karta.hodnota == Hodnota.REV:
             hra.zmena_smeru()
+
+        if karta.hodnota == Hodnota.SKIP or karta.hodnota == Hodnota.PLUS4 or karta.hodnota == Hodnota.PLUS2:
+            hra.skip()
