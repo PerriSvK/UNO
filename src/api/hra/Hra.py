@@ -48,7 +48,7 @@ class Hra:
         self._tah = (self._tah + 1) % len(self._hraci)
         self._hraci[self._tah].tah = True
 
-        self._okno.redraw()
+        self._okno.zacinaj_tah()
         print("TAH -", self._tah)
 
     @property

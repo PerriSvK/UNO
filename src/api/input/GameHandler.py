@@ -32,5 +32,6 @@ class GameHandler(Handler):
                     if kar is not None:
                         self._program.obr[1].hra.hrac().ruka().pridaj_kartu(kar)
 
-                self._program.obr[1].hra.dalsi_hrac()
+                #self._program.obr[1].hra.dalsi_hrac()
+                self._program.obr[1].ukonci_tah()
                 self._program.obr[1].redraw()

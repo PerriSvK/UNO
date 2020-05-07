@@ -61,4 +61,4 @@ class AI(Hrac):
                 self._ruka.pridaj_kartu(kar)
 
         self._okno.redraw()
-        self._hra.dalsi_hrac()
+        #self._hra.dalsi_hrac()
