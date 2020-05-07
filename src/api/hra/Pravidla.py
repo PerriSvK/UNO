@@ -14,5 +14,15 @@ class Pravidla:
         if karta.hodnota == Hodnota.REV:
             hra.zmena_smeru()
 
+        if karta.hodnota == Hodnota.PLUS2:
+            for i in range(2):
+                k = hra.tahaci().vrchna()
+                hra.hrac_po_smere().ruka().pridaj_kartu(k)
+
+        if karta.hodnota == Hodnota.PLUS4:
+            for i in range(4):
+                k = hra.tahaci().vrchna()
+                hra.hrac_po_smere().ruka().pridaj_kartu(k)
+
         if karta.hodnota == Hodnota.SKIP or karta.hodnota == Hodnota.PLUS4 or karta.hodnota == Hodnota.PLUS2:
             hra.skip()

@@ -32,7 +32,7 @@ class AI(Hrac):
                 self._hra.odhadzovaci().pridaj_kartu(karta)
                 self._ruka.odstran_kartu(karta)
                 tt = True
-                break
+                return
 
         for karta in self._ruka.karty():
             if karta.hodnota == odh_k.hodnota:
@@ -41,7 +41,7 @@ class AI(Hrac):
                 self._hra.odhadzovaci().pridaj_kartu(karta)
                 self._ruka.odstran_kartu(karta)
                 tt = True
-                break
+                return
 
         for karta in self._ruka.karty():
             if karta.farba == Farba.BLACK:
@@ -50,7 +50,7 @@ class AI(Hrac):
                 self._hra.odhadzovaci().pridaj_kartu(karta)
                 self._ruka.odstran_kartu(karta)
                 tt = True
-                break
+                return
 
         if odh_k.farba == Farba.BLACK:
             karta = self._ruka.vrchna()
@@ -59,6 +59,7 @@ class AI(Hrac):
             self._hra.odhadzovaci().pridaj_kartu(karta)
             self._ruka.odstran_kartu(karta)
             tt = True
+            return
 
         if not tt:
             kar = self._hra.tahaci().vrchna()

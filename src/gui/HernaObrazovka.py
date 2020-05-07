@@ -95,7 +95,7 @@ class HernaObrazovka(Obrazovka):
 
         # vykreslenie odhadzovacieho balika
         odh_kar = self._hra.odhadzovaci().peek()
-        print("ODH:", odh_kar.farba, odh_kar.hodnota)
+        #print("ODH:", odh_kar.farba, odh_kar.hodnota)
         if self._odhadzovaci_id < 0:
             kk = self._ntk.karta(odh_kar.farba, odh_kar.hodnota)
             self._cached_images.append(ImageTk.PhotoImage(kk))

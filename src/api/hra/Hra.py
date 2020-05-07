@@ -47,13 +47,21 @@ class Hra:
 
     def dalsi_hrac(self):
         self._hraci[self._tah].tah = False
-        print("MOVE_C", self._move_c)
+        tah_old = self._tah
         self._tah = (self._tah + self._move_c*self._smer) % len(self._hraci)
         self._move_c = 1
-        self._hraci[self._tah].tah = True
+        print("Hrac", tah_old, "dohral. Polozena karta je:", self._odhadzovaci.peek().farba, self._odhadzovaci.peek().hodnota, "ide hrac", self._tah)
+        if self._tah == tah_old:
+            self.dalsi_hrac()
+            return
 
+        # skontroluj, ci su karty v baliku
+        if self._tahaci.peek() is None:
+            self._tahaci.pridaj_karty(self.odhadzovaci().odtran_vsetky())
+            self._tahaci.miesat()
+
+        self._hraci[self._tah].tah = True
         self._okno.zacinaj_tah()
-        print("TAH -", self._tah)
 
     def zmena_smeru(self):
         print("ZMENA SMERU")
@@ -66,3 +74,6 @@ class Hra:
     @property
     def tah(self):
         return self._tah
+
+    def hrac_po_smere(self):
+        return self._hraci[(self._tah + self._smer) % len(self._hraci)]

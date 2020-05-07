@@ -40,7 +40,6 @@ class Stack:
     def vrchna(self):
         if len(self._karty) > 0:
             return self._karty.pop(0)
-
         return None
 
     def peek(self):
@@ -48,3 +47,9 @@ class Stack:
             return self._karty[-1]
 
         return None
+
+    def odtran_vsetky(self, nechaj_vrchnu=True):
+        res = self._karty
+        nbal = [res.pop(len(res)-1)] if nechaj_vrchnu else []
+        self._karty = nbal
+        return res
