@@ -13,8 +13,8 @@ class Hodnota(Enum):
     SEDEM = 7
     OSEM = 8
     DEVAT = 9
-    REV = 10
-    SKIP = 11
+    SKIP = 10
+    REV = 11
     PLUS2 = 12
     PLUS4 = 13
     ZMENA = 14

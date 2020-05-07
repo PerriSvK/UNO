@@ -15,6 +15,7 @@ class Hra:
         self._odhadzovaci = Stack()
         self._odhadzovaci.pridaj_kartu(self._tahaci.vrchna())
         self._tah = 0
+        self._smer = 1
 
     def setup(self):
         self._hraci.append(Hrac())
@@ -45,11 +46,15 @@ class Hra:
 
     def dalsi_hrac(self):
         self._hraci[self._tah].tah = False
-        self._tah = (self._tah + 1) % len(self._hraci)
+        self._tah = (self._tah + self._smer) % len(self._hraci)
         self._hraci[self._tah].tah = True
 
         self._okno.zacinaj_tah()
         print("TAH -", self._tah)
+
+    def zmena_smeru(self):
+        print("ZMENA SMERU")
+        self._smer *= -1
 
     @property
     def tah(self):

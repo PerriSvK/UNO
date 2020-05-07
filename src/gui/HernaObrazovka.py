@@ -60,17 +60,11 @@ class HernaObrazovka(Obrazovka):
             # animacia na tah
             if self._ukoncuj_tah < 0 and self._zacinaj_tah < 0:
                 th = 20 if hrac.tah else 0
-                if hrac.tah:
-                    print("NIE ANIM")
             elif self._ukoncuj_tah >= 0:
                 th = int(self._ukoncuj_tah) if hrac.tah else 0
-                if hrac.tah:
-                    print("ANIM:", int(self._ukoncuj_tah) if hrac.tah else 0, self._ukoncuj_tah)
                 self._ukoncuj_tah -= self._tah_anim_speed/1.2
             elif self._zacinaj_tah >= 0:
                 th = 20 - int(self._zacinaj_tah) if hrac.tah else 0
-                if hrac.tah:
-                    print("ANIM:", 20-int(self._zacinaj_tah) if hrac.tah else 0, self._zacinaj_tah)
                 self._zacinaj_tah -= self._tah_anim_speed / 1.2
 
             for i, karta in enumerate(karty):

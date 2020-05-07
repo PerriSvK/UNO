@@ -24,6 +24,7 @@ class GameHandler(Handler):
                     kar = self._program.obr[1].hra.hrac().ruka().odstran_kartu(objekt)
                     if kar is not None:
                         self._program.obr[1].hra.odhadzovaci().pridaj_kartu(kar)
+                        Pravidla.vykonaj_akciu(self._program.obr[1].hra, kar)
 
                     self._canvas.delete(objekt.id)
 
