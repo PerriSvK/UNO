@@ -26,6 +26,7 @@ class HernaObrazovka(Obrazovka):
         self._zacinaj_tah = -1
         self._tah_anim_speed = 20/60.0
         self._dalsi_hrac_caka = False
+        self._tahaci_obr_cache = None
 
     def setup(self, handler=None):
         super().setup(handler)
@@ -90,8 +91,8 @@ class HernaObrazovka(Obrazovka):
         if self._hra.tahaci().__len__:
             if self._tahaci_id < 0:
                 kk = self._ntk.karta(Farba.NONE, Hodnota.NONE)
-                self._cached_images.append(ImageTk.PhotoImage(kk))
-                self._tahaci_id = self._canvas.create_image(300, 300, image=self._cached_images[-1])
+                self._tahaci_obr_cache = ImageTk.PhotoImage(kk)
+                self._tahaci_id = self._canvas.create_image(300, 300, image=self._tahaci_obr_cache)
 
         # vykreslenie odhadzovacieho balika
         odh_kar = self._hra.odhadzovaci().peek()
@@ -106,13 +107,14 @@ class HernaObrazovka(Obrazovka):
             self._canvas.itemconfigure(self._odhadzovaci_id, image=self._cached_images[-1])
 
     def loop(self):
+        if self._ukoncuj_tah < 0 and self._dalsi_hrac_caka:
+            self._dalsi_hrac_caka = False
+            self.vycisti_obrazky()
+            self._hra.dalsi_hrac()
+
         if self._redraw or self._ukoncuj_tah >= 0 or self._zacinaj_tah >= 0:
             self.render()
             self._redraw = False
-
-        if self._ukoncuj_tah < 0 and self._dalsi_hrac_caka:
-            self._dalsi_hrac_caka = False
-            self._hra.dalsi_hrac()
 
         if type(self._hra.hraci()[self._hra.tah]) is AI:
             self._n += 1
@@ -134,6 +136,19 @@ class HernaObrazovka(Obrazovka):
 
     def zacinaj_tah(self):
         self._zacinaj_tah = 20
+
+    def vycisti_obrazky(self):
+        print("cisti")
+        for x in self._cached_images:
+            self._canvas.delete(x)
+
+        self._cached_images = []
+        for h in self._hra.hraci():
+            for k in h.ruka().karty():
+                k.id = -1
+
+        self._canvas.delete(self._odhadzovaci_id)
+        self._odhadzovaci_id = -1
 
     @property
     def hra(self):
