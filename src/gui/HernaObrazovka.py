@@ -37,6 +37,7 @@ class HernaObrazovka(Obrazovka):
         self._anim_karta_speed = 0.01
         self._tahaci_pos = 300, 300
         self._odha_pos = 500, 300
+        self._koniec = False
 
     def setup(self, handler=None):
         super().setup(handler)
@@ -133,6 +134,9 @@ class HernaObrazovka(Obrazovka):
         #     self._canvas.itemconfigure(self._odhadzovaci_id, image=self._odh_cached_images[-1])
 
     def loop(self):
+        if self._koniec:
+            return
+
         if self._ukoncuj_tah < 0 and self._dalsi_hrac_caka:
             self._dalsi_hrac_caka = False
             print("CIST - LOOP")
@@ -155,6 +159,7 @@ class HernaObrazovka(Obrazovka):
                 self.ukonci_tah()
 
     def nova_hra(self):
+        self._koniec = False
         self._hra = Hra(self)  # type: Hra
         self._hra.setup()
 
@@ -194,3 +199,7 @@ class HernaObrazovka(Obrazovka):
     @property
     def hra(self):
         return self._hra
+
+    def ukonci(self):
+        self._koniec = True
+        self._handler.ukonci_hru()

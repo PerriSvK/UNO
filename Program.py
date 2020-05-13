@@ -1,5 +1,7 @@
 import tkinter
 
+from api.input.WinHandler import WinHandler
+from gui.VyhernaObrazovka import VyhernaObrazovka
 from src.api.input.GameHandler import GameHandler
 from src.api.input.MenuHandler import MenuHandler
 from src.gui.HernaObrazovka import HernaObrazovka
@@ -23,9 +25,13 @@ class Program:
         self.handlers.append(MenuHandler(self, self.obr[0].canvas))
         self.obr[0].setup(self.handlers[0])
 
-        ##
-        self.obr.append(HernaObrazovka(self.tk, True))
+        ## Herna obrazovka
+        self.obr.append(HernaObrazovka(self.tk, False))
         self.handlers.append(GameHandler(self, self.obr[1].canvas))
+
+        ## Vyherna obrazovka
+        self.obr.append(VyhernaObrazovka(self.tk, False))
+        self.handlers.append(WinHandler(self, self.obr[2].canvas))
 
         # nastavenie obrazovky
         self.obri = 0

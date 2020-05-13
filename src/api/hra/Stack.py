@@ -7,7 +7,6 @@ class Stack:
     def __init__(self, karty=None):
         self._karty = [] if karty is None else karty
 
-    @property
     def __len__(self):
         return len(self._karty)
 

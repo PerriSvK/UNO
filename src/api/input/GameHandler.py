@@ -37,3 +37,7 @@ class GameHandler(Handler):
                 #self._program.obr[1].hra.dalsi_hrac()
                 self._program.obr[1].ukonci_tah()
                 self._program.obr[1].redraw()
+
+    def ukonci_hru(self):
+        self._program.zmen_obrazovku(2)
+        self._program.obr[2].setup(self._program.handlers[2], self._program.obr[1].hra)

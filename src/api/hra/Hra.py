@@ -17,6 +17,7 @@ class Hra:
         self._tah = 0
         self._smer = 1
         self._move_c = 1
+        self._vyherca = None
 
     def setup(self):
         self._hraci.append(Hrac())
@@ -46,6 +47,13 @@ class Hra:
         return self._hraci
 
     def dalsi_hrac(self):
+        # Kontrola, ci hra skoncila
+        if len(self._hraci[self._tah].ruka()) == 0:
+            # Koniec hry
+            self._vyherca = self._tah
+            self.koniec()
+            return
+
         self._hraci[self._tah].tah = False
         tah_old = self._tah
         self._tah = (self._tah + self._move_c*self._smer) % len(self._hraci)
@@ -77,3 +85,10 @@ class Hra:
 
     def hrac_po_smere(self):
         return self._hraci[(self._tah + self._smer) % len(self._hraci)]
+
+    @property
+    def vyherca(self):
+        return self._vyherca
+
+    def koniec(self):
+        self._okno.ukonci()
