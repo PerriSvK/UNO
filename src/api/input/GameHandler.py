@@ -26,7 +26,8 @@ class GameHandler(Handler):
                         self._program.obr[1].hra.odhadzovaci().pridaj_kartu(kar)
                         Pravidla.vykonaj_akciu(self._program.obr[1].hra, kar)
 
-                    self._canvas.delete(objekt.id)
+                    #self._canvas.delete(objekt.id)
+                    self._program.obr[1].nastav_anim_karty(kar, self._program.obr[1].hra.odhadzovaci().peek())
 
                 if type(objekt) is int:
                     kar = self._program.obr[1].hra.tahaci().vrchna()

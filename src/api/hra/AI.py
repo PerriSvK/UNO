@@ -27,39 +27,39 @@ class AI(Hrac):
 
         for karta in self._ruka.karty():
             if karta.farba == odh_k.farba:
-                self._okno.canvas.delete(karta.id)
+                #self._okno.canvas.delete(karta.id)
                 Pravidla.vykonaj_akciu(self._hra, karta)
                 self._hra.odhadzovaci().pridaj_kartu(karta)
                 self._ruka.odstran_kartu(karta)
                 tt = True
-                return
+                return karta
 
         for karta in self._ruka.karty():
             if karta.hodnota == odh_k.hodnota:
-                self._okno.canvas.delete(karta.id)
+                #self._okno.canvas.delete(karta.id)
                 Pravidla.vykonaj_akciu(self._hra, karta)
                 self._hra.odhadzovaci().pridaj_kartu(karta)
                 self._ruka.odstran_kartu(karta)
                 tt = True
-                return
+                return karta
 
         for karta in self._ruka.karty():
             if karta.farba == Farba.BLACK:
-                self._okno.canvas.delete(karta.id)
+                #self._okno.canvas.delete(karta.id)
                 Pravidla.vykonaj_akciu(self._hra, karta)
                 self._hra.odhadzovaci().pridaj_kartu(karta)
                 self._ruka.odstran_kartu(karta)
                 tt = True
-                return
+                return karta
 
         if odh_k.farba == Farba.BLACK:
             karta = self._ruka.vrchna()
-            self._okno.canvas.delete(karta.id)
+            #self._okno.canvas.delete(karta.id)
             Pravidla.vykonaj_akciu(self._hra, karta)
             self._hra.odhadzovaci().pridaj_kartu(karta)
             self._ruka.odstran_kartu(karta)
             tt = True
-            return
+            return karta
 
         if not tt:
             kar = self._hra.tahaci().vrchna()
@@ -67,4 +67,5 @@ class AI(Hrac):
                 self._ruka.pridaj_kartu(kar)
 
         self._okno.redraw()
+        return None
         #self._hra.dalsi_hrac()
