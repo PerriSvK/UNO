@@ -83,6 +83,12 @@ class Hra:
     def tah(self):
         return self._tah
 
+    @tah.setter
+    def tah(self, tah):
+        self._hraci[self._tah].tah = False
+        self._tah = tah
+        self._hraci[self._tah].tah = True
+
     def hrac_po_smere(self):
         return self._hraci[(self._tah + self._smer) % len(self._hraci)]
 

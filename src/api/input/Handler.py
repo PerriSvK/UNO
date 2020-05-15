@@ -18,5 +18,12 @@ class Handler:
 
             self._canvas.tag_bind(objekt.id, typ, lambda event: self.event(event, typ, objekt))
 
+    def odregistruj(self, objekt, typ):
+        if objekt.id >= 0:
+            if self._objekty.__contains__(objekt):
+                self._objekty.remove(objekt)
+
+        self._canvas.tag_unbind(objekt.id, typ)
+
     def event(self, event, typ, objekt):
         print(event, typ, objekt)

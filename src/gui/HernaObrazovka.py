@@ -79,7 +79,7 @@ class HernaObrazovka(Obrazovka):
                 s += 2
 
         self._program.scheduler.add_task(Task(self.tah_karta_odh, []), s+20)
-        self._program.scheduler.add_task(Task(self.obrat_kartu, [None, 0, self._hra.odhadzovaci().peek]), s+1*60)
+        self._program.scheduler.add_task(Task(self.obrat_kartu, [None, None, self._hra.odhadzovaci().peek]), s+30)
         for i in range(4):
             if i > 0:
                 self._program.scheduler.add_task(Task(self.otoc_karty, [i]), s + 39)
@@ -89,7 +89,8 @@ class HernaObrazovka(Obrazovka):
 
             self._program.scheduler.add_task(Task(self.uprac_ruku, [i]), s+40)
         self._program.scheduler.add_task(Task(self.vypis_kariet, []), s+40)
-        #self._program.scheduler.add_task(Task(self.redraw, []), s+45)
+
+        self._program.scheduler.add_task(Task(self.start, []), s + 120)
 
         # # vykreslenie hry
         # if self._hra is not None:
@@ -209,6 +210,15 @@ class HernaObrazovka(Obrazovka):
             karta.pozicia = self._tahaci_pos
             karta.id = id
             karta.img = cache
+            self._handler.zaregistruj(karta, "<Button-1>")
+
+        # img = self._ntk.karta(Farba.NONE, Hodnota.NONE)
+        # ca = ImageTk.PhotoImage(img)
+        # self._hra.tahaci().id = self._canvas.create_image(self._tahaci_pos, image=ca)
+        # self._hra.tahaci().img = ca
+
+    def start(self):
+        self._hra.tah = 0
 
     def vypis_kariet(self):
         print("KARTY:")
@@ -264,10 +274,18 @@ class HernaObrazovka(Obrazovka):
         self._canvas.delete(karta.id)
         karta.img = None
         img = self._ntk.karta(karta.farba, karta.hodnota)
-        img = img.rotate(hrac_id*90, expand=1)
+        img = img.rotate(0 if hrac_id is None else hrac_id*90, expand=1)
         ca = ImageTk.PhotoImage(img)
         karta.id = self._canvas.create_image(karta.pozicia, image=ca)
         karta.img = ca
+        if hrac_id == 0:
+            self._handler.zaregistruj(karta, "<Button-1>")
+
+    def pridaj_animaciu(self, anim, inject=False, inject_poz=0):
+        if inject and len(self._anim_list) > inject_poz:
+            self._anim_list[inject_poz].append(anim)
+        else:
+            self._anim_list.append([anim])
 
     def loop(self):
         if self._koniec:
@@ -295,6 +313,10 @@ class HernaObrazovka(Obrazovka):
         #
         #         self.ukonci_tah()
 
+    @property
+    def odh_bal_poz(self):
+        return self._odha_pos
+
     def nova_hra(self):
         self._koniec = False
         self._hra = Hra(self)  # type: Hra
@@ -302,36 +324,36 @@ class HernaObrazovka(Obrazovka):
 
     def redraw(self):
         self._redraw = True
-
-    def ukonci_tah(self):
-        self._ukoncuj_tah = 20
-        self._dalsi_hrac_caka = True
-
-    def zacinaj_tah(self):
-        self._zacinaj_tah = 20
-
-    def vycisti_obrazky(self):
-        print("cisti")
-        for x in self._cached_images:
-            self._canvas.delete(x)
-
-        self._cached_images = []
-        for h in self._hra.hraci():
-            for k in h.ruka().karty():
-                k.id = -1
+    #
+    # def ukonci_tah(self):
+    #     self._ukoncuj_tah = 20
+    #     self._dalsi_hrac_caka = True
+    #
+    # def zacinaj_tah(self):
+    #     self._zacinaj_tah = 20
+    #
+    # def vycisti_obrazky(self):
+    #     print("cisti")
+    #     for x in self._cached_images:
+    #         self._canvas.delete(x)
+    #
+    #     self._cached_images = []
+    #     for h in self._hra.hraci():
+    #         for k in h.ruka().karty():
+    #             k.id = -1
 
         #self._canvas.delete(self._odhadzovaci_id)
-        #self._odhadzovaci_id = -1
-
-    def nastav_anim_karty(self, obj, tar):
-        k = obj  # type: Karta
-        coord = self._canvas.coords(obj.id)
-        self._canvas.delete(obj.id)
-        kk = self._ntk.karta(k.farba, k.hodnota)
-        self._odh_cached_images.append(ImageTk.PhotoImage(kk.rotate(90*self._hra.tah + random.randint(-10, 10), expand=1, resample=Image.BICUBIC)))
-        self._odh_ids.append(self._canvas.create_image(coord, image=self._odh_cached_images[-1]))
-        k.id = self._odh_ids[-1]
-        self._anim_karta = obj, tar
+    #     #self._odhadzovaci_id = -1
+    #
+    # def nastav_anim_karty(self, obj, tar):
+    #     k = obj  # type: Karta
+    #     coord = self._canvas.coords(obj.id)
+    #     self._canvas.delete(obj.id)
+    #     kk = self._ntk.karta(k.farba, k.hodnota)
+    #     self._odh_cached_images.append(ImageTk.PhotoImage(kk.rotate(90*self._hra.tah + random.randint(-10, 10), expand=1, resample=Image.BICUBIC)))
+    #     self._odh_ids.append(self._canvas.create_image(coord, image=self._odh_cached_images[-1]))
+    #     k.id = self._odh_ids[-1]
+    #     self._anim_karta = obj, tar
 
     @property
     def hra(self):
