@@ -12,6 +12,9 @@ class Stack(Objekt):
     def __len__(self):
         return len(self._karty)
 
+    def __contains__(self, item):
+        return item in self._karty
+
     def pridaj_kartu(self, karta):
         self._karty.append(karta)
 

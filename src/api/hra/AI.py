@@ -6,8 +6,8 @@ from src.api.hra.Pravidla import Pravidla
 
 
 class AI(Hrac):
-    def __init__(self, okno):
-        super().__init__(True)
+    def __init__(self, okno, id=1):
+        super().__init__(True, id)
         self._hra = okno.hra
         self._okno = okno
 

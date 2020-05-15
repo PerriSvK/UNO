@@ -14,15 +14,15 @@ class Hra:
 
         self._odhadzovaci = Stack()
         #self._odhadzovaci.pridaj_kartu(self._tahaci.vrchna())
-        self._tah = 0
+        self._tah = None
         self._smer = 1
         self._move_c = 1
         self._vyherca = None
 
     def setup(self):
-        self._hraci.append(Hrac())
+        self._hraci.append(Hrac(id=0))
         for i in range(3):
-            self._hraci.append(AI(self._okno))
+            self._hraci.append(AI(self._okno, i+1))
 
         # for j in range(4):
         #     for i in range(7):
@@ -54,22 +54,23 @@ class Hra:
             self.koniec()
             return
 
-        self._hraci[self._tah].tah = False
+        #self._hraci[self._tah].tah = False
         tah_old = self._tah
-        self._tah = (self._tah + self._move_c*self._smer) % len(self._hraci)
-        self._move_c = 1
-        print("Hrac", tah_old, "dohral. Polozena karta je:", self._odhadzovaci.peek().farba, self._odhadzovaci.peek().hodnota, "ide hrac", self._tah)
-        if self._tah == tah_old:
-            self.dalsi_hrac()
-            return
+        dalsi_tah = (self._tah + self._move_c*self._smer) % len(self._hraci)
+        # self._move_c = 1
+        # print("Hrac", tah_old, "dohral. Polozena karta je:", self._odhadzovaci.peek().farba, self._odhadzovaci.peek().hodnota, "ide hrac", self._tah)
+        # if self._tah == tah_old:
+        #     self.dalsi_hrac()
+        #     return
 
         # skontroluj, ci su karty v baliku
         if self._tahaci.peek() is None:
             self._tahaci.pridaj_karty(self.odhadzovaci().odtran_vsetky())
             self._tahaci.miesat()
 
-        self._hraci[self._tah].tah = True
-        self._okno.zacinaj_tah()
+        #self._hraci[self._tah].tah = True
+        self.tah = dalsi_tah
+        #self._okno.zacinaj_tah()
 
     def zmena_smeru(self):
         print("ZMENA SMERU")
@@ -85,9 +86,19 @@ class Hra:
 
     @tah.setter
     def tah(self, tah):
-        self._hraci[self._tah].tah = False
+        if self._tah is not None:
+            self._hraci[self._tah].tah = False
+            anim = self._hraci[self._tah].animacie_tahu(False)
+            for a in anim:
+                self._okno.pridaj_animaciu(a, True)
         self._tah = tah
+        print("Nastavujem tah na:", tah)
         self._hraci[self._tah].tah = True
+
+        anim = self._hraci[self._tah].animacie_tahu(True)
+        for a in anim:
+            print("Pridavam animaciu", a)
+            self._okno.pridaj_animaciu(a, True, 1)
 
     def hrac_po_smere(self):
         return self._hraci[(self._tah + self._smer) % len(self._hraci)]

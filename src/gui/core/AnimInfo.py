@@ -20,6 +20,9 @@ class AnimInfo:
     def objekt(self):
         return self._obj
 
+    def __repr__(self):
+        return f"Animacia: {self._poz} -> {self._tar}"
+
     def tick(self):
         if self._done:
             return
