@@ -13,7 +13,7 @@ class Hra:
         self._tahaci.miesat()
 
         self._odhadzovaci = Stack()
-        self._odhadzovaci.pridaj_kartu(self._tahaci.vrchna())
+        #self._odhadzovaci.pridaj_kartu(self._tahaci.vrchna())
         self._tah = 0
         self._smer = 1
         self._move_c = 1
@@ -24,12 +24,12 @@ class Hra:
         for i in range(3):
             self._hraci.append(AI(self._okno))
 
-        for j in range(4):
-            for i in range(7):
-                k = self._tahaci.vrchna()
-                self._hraci[j].ruka().pridaj_kartu(k)
-
-        self.hrac().tah = True
+        # for j in range(4):
+        #     for i in range(7):
+        #         k = self._tahaci.vrchna()
+        #         self._hraci[j].ruka().pridaj_kartu(k)
+        #
+        # self.hrac().tah = True
 
     def hrac(self):
         return self._hraci[0]

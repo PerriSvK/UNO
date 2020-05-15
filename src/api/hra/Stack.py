@@ -1,10 +1,12 @@
 import random
 
+from gui.core.Objekt import Objekt
 from src.api.hra.Karta import Karta
 
 
-class Stack:
-    def __init__(self, karty=None):
+class Stack(Objekt):
+    def __init__(self,karty=None, pozicia=None, velkost=None):
+        super().__init__(pozicia, velkost)
         self._karty = [] if karty is None else karty
 
     def __len__(self):

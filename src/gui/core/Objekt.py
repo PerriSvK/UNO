@@ -3,6 +3,7 @@ class Objekt:
         self._pozicia = pozicia
         self._velkost = velkost
         self._id = -1
+        self._img = None
 
     @property
     def pozicia(self):
@@ -27,3 +28,11 @@ class Objekt:
     @id.setter
     def id(self, nid):
         self._id = nid
+
+    @property
+    def img(self):
+        return self._img
+
+    @img.setter
+    def img(self, img):
+        self._img = img
