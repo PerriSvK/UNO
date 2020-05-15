@@ -18,6 +18,10 @@ class Ruka(Stack):
         self._sirka = sirka
         self._otocenie = otocenie
 
+    @property
+    def otocenie(self):
+        return self._otocenie
+
     def nove_pozicie(self):
         # maximalna sirka na kartu
         msnk = 100

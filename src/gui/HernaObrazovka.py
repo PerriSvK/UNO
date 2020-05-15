@@ -38,7 +38,7 @@ class HernaObrazovka(Obrazovka):
         self._anim_karta_speed = 0.01
         self._tahaci_pos = 300, 300
         self._odha_pos = 500, 300
-        self._hrac_poz_zak = [(400, 580), (780, 300), (400, 20), (20, 300)]
+        self._hrac_poz_zak = [(400, 610), (810, 300), (400, -10), (-10, 300)]
         self._hrac_poz_tah = [(400, 550), (750, 300), (400, 50), (50, 300)]
         self._koniec = False
         self._anim_list = []
@@ -79,7 +79,14 @@ class HernaObrazovka(Obrazovka):
                 s += 2
 
         self._program.scheduler.add_task(Task(self.tah_karta_odh, []), s+20)
+        self._program.scheduler.add_task(Task(self.obrat_kartu, [None, 0, self._hra.odhadzovaci().peek]), s+1*60)
         for i in range(4):
+            if i > 0:
+                self._program.scheduler.add_task(Task(self.otoc_karty, [i]), s + 39)
+            else:
+                a = lambda: [self.obrat_kartu(kar, 0) for kar in self._hra.hrac().ruka().karty()]
+                self._program.scheduler.add_task(Task(a, []), s+41)
+
             self._program.scheduler.add_task(Task(self.uprac_ruku, [i]), s+40)
         self._program.scheduler.add_task(Task(self.vypis_kariet, []), s+40)
         #self._program.scheduler.add_task(Task(self.redraw, []), s+45)
@@ -235,6 +242,32 @@ class HernaObrazovka(Obrazovka):
                 self._anim_list[0].append(anim)
             else:
                 self._anim_list.append([anim])
+
+    def otoc_karty(self, hrac_id):
+        hrac = self._hra.hraci()[hrac_id]
+        for karta in hrac.ruka().karty():
+            self._canvas.delete(karta.id)
+            karta.img = None
+            img = self._ntk.karta(Farba.NONE, Hodnota.NONE)
+            img = img.rotate(hrac.ruka().otocenie, expand=1)
+            ca = ImageTk.PhotoImage(img)
+            karta.id = self._canvas.create_image(karta.pozicia, image=ca)
+            karta.img = ca
+
+    def obrat_kartu(self, karta=None, hrac_id=0, funk=None, param=None):
+        if karta is None:
+            if param is not None:
+                karta = funk(param)
+            else:
+                karta = funk()
+            #karta = self._hra.odhadzovaci().peek()
+        self._canvas.delete(karta.id)
+        karta.img = None
+        img = self._ntk.karta(karta.farba, karta.hodnota)
+        img = img.rotate(hrac_id*90, expand=1)
+        ca = ImageTk.PhotoImage(img)
+        karta.id = self._canvas.create_image(karta.pozicia, image=ca)
+        karta.img = ca
 
     def loop(self):
         if self._koniec:
