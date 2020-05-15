@@ -28,10 +28,13 @@ class Stack(Objekt):
             self._karty.remove(k)
             return k
         elif type(karta) is Karta:
-            for k in range(len(self._karty)):
-                if self._karty[k] == karta:
-                    self._karty.remove(self._karty[k])
+            i = 0
+            while i < len(self._karty):
+                if self._karty[i] == karta:
+                    self._karty.pop(i)
                     return karta
+
+                i += 1
 
         return None
 

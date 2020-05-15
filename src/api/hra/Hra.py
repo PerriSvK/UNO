@@ -14,9 +14,8 @@ class Hra:
         # napln karty
         self._tahaci = Stack(Karta.balicek())
         self._tahaci.miesat()
-
+        self._vstup = False
         self._odhadzovaci = Stack()
-        #self._odhadzovaci.pridaj_kartu(self._tahaci.vrchna())
         self._tah = None
         self._smer = 1
         self._move_c = 1
@@ -26,13 +25,6 @@ class Hra:
         self._hraci.append(Hrac(id=0))
         for i in range(3):
             self._hraci.append(AI(self._okno, i+1))
-
-        # for j in range(4):
-        #     for i in range(7):
-        #         k = self._tahaci.vrchna()
-        #         self._hraci[j].ruka().pridaj_kartu(k)
-        #
-        # self.hrac().tah = True
 
     def hrac(self):
         return self._hraci[0]
@@ -44,6 +36,7 @@ class Hra:
         return self._odhadzovaci
 
     def tahaci(self):
+        print("TAHACI - OSTAVA:", len(self._tahaci))
         return self._tahaci
 
     def hraci(self):
@@ -68,7 +61,20 @@ class Hra:
 
         # skontroluj, ci su karty v baliku
         if self._tahaci.peek() is None:
-            self._tahaci.pridaj_karty(self.odhadzovaci().odtran_vsetky())
+            print("TOCIM BALIK")
+            karty = self.odhadzovaci().odtran_vsetky()
+
+            for karta in karty:
+                self._okno.otoc_kartu(karta, 0)
+                #self._okno.obrat_kartu(karta, 0)
+                anim = AnimInfo(None, karta, self._okno.tah_bal_poz, Anim.NONE, 50)
+                self._okno.pridaj_animaciu(anim, True)
+
+            self._tahaci.pridaj_karty(karty)
+
+            for karta in self._tahaci.karty()[::-1]:
+                self._okno.canvas.tag_raise(karta.id)
+
             self._tahaci.miesat()
 
         #self._hraci[self._tah].tah = True
@@ -76,11 +82,11 @@ class Hra:
         #self._okno.zacinaj_tah()
 
     def zmena_smeru(self):
-        print("ZMENA SMERU")
+        #print("ZMENA SMERU")
         self._smer *= -1
 
     def skip(self):
-        print("SKIP")
+        #print("SKIP")
         self._move_c = 2
 
     @property
@@ -91,21 +97,19 @@ class Hra:
     def tah(self, tah):
         if self._tah is not None:
             self._hraci[self._tah].tah = False
-            anim = self._hraci[self._tah].animacie_tahu(False)
-            for a in anim:
-                self._okno.pridaj_animaciu(a, True)
 
         self._tah = tah
-        print("Nastavujem tah na:", tah)
+        #print("Nastavujem tah na:", tah)
         self._hraci[self._tah].tah = True
 
         anim = self._hraci[self._tah].animacie_tahu(True)
         for a in anim:
-            print("Pridavam animaciu", a)
-            self._okno.pridaj_animaciu(a, True, 1)
+            self._okno.pridaj_animaciu(a, True)
 
         if type(self._hraci[self._tah]) is AI:
-            self._okno.handler.program.scheduler.add_task(Task(self.urob_ai_tah, []), 2*60)
+            self._okno.handler.program.scheduler.add_task(Task(self.urob_ai_tah, []), 1*60+30)
+        else:
+            self._vstup = True
 
     def hrac_po_smere(self):
         return self._hraci[(self._tah + self._smer) % len(self._hraci)]
@@ -123,11 +127,23 @@ class Hra:
             self._okno.pridaj_animaciu(anim)
 
         self._okno.handler.program.scheduler.add_task(Task(self._okno.uprac_ruku, [self._tah]), 30)
-        self._okno.handler.program.scheduler.add_task(Task(self.dalsi_hrac, []), 2 * 60)
+        self._okno.handler.program.scheduler.add_task(Task(self.dalsi_hrac, []), 1*60)
 
     @property
     def vyherca(self):
         return self._vyherca
+
+    @property
+    def okno(self):
+        return self._okno
+
+    @property
+    def vstup(self):
+        return self._vstup
+
+    @vstup.setter
+    def vstup(self, vstup):
+        self._vstup = vstup
 
     def koniec(self):
         self._okno.ukonci()

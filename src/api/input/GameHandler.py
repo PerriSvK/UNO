@@ -13,9 +13,10 @@ class GameHandler(Handler):
     def event(self, event, typ, objekt):
         if typ == "<Button-1>":
             if self._program.obr[1].hra.hrac().tah:
-                print("KLIK TAH")
-                if type(objekt) is Karta:
+                if type(objekt) is Karta and self.program.obr[1].hra.vstup:
+                    self.program.obr[1].hra.vstup = False
 
+                    print("KLIK")
                     if objekt in self._program.obr[1].hra.hrac().ruka():
                         if not Pravidla.moze_polozit(self._program.obr[1].hra.odhadzovaci().peek(), objekt):
                             return
@@ -27,21 +28,22 @@ class GameHandler(Handler):
                             self._program.obr[1].otoc_kartu(kar, 0, True, True)
                             anim = AnimInfo(None, kar, self._program.obr[1].odh_bal_poz, Anim.THROW, 10)
                             self._program.obr[1].pridaj_animaciu(anim)
-                            Pravidla.vykonaj_akciu(self._program.obr[1].hra, kar)
+                            self._program.scheduler.add_task(Task(Pravidla.vykonaj_akciu, [self._program.obr[1].hra, kar]), 2)
                             self._program.scheduler.add_task(Task(self._program.obr[1].uprac_ruku, [0]), 20)
                     else:
                         kar = self._program.obr[1].hra.tahaci().vrchna()
+                        print("TAH -", kar)
                         if kar is not None:
                             self._program.obr[1].hra.hrac().ruka().pridaj_kartu(kar)
                             anim = AnimInfo(0, kar, self._program.obr[1].hra.hrac().ruka().pozicia, Anim.PICK, 10)
                             self._program.obr[1].pridaj_animaciu(anim)
-                            self._program.scheduler.add_task(Task(self._program.obr[1].obrat_kartu, [kar]), 20)
-                            self._program.scheduler.add_task(Task(self._program.obr[1].uprac_ruku, [0]), 60)
+                            self._program.scheduler.add_task(Task(self._program.obr[1].obrat_kartu, [kar]), 30)
+                            self._program.scheduler.add_task(Task(self._program.obr[1].uprac_ruku, [0]), 90)
 
                     #self._canvas.delete(objekt.id)
                     # self._program.obr[1].nastav_anim_karty(kar, self._program.obr[1].hra.odhadzovaci().peek())
 
-                    self._program.scheduler.add_task(Task(self._program.obr[1].hra.dalsi_hrac, []), 1*60)
+                    self._program.scheduler.add_task(Task(self._program.obr[1].hra.dalsi_hrac, []), 60)
                 # self._program.obr[1].ukonci_tah()
                 # self._program.obr[1].redraw()
 

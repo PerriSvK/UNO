@@ -31,6 +31,8 @@ class Ruka(Stack):
         return self._poz_tah
 
     def nove_pozicie(self):
+        if len(self._karty) <= 0:
+            return None
         # maximalna sirka na kartu
         msnk = 100
         # sirka jednej karty
@@ -39,15 +41,16 @@ class Ruka(Stack):
         a = [((i+1) * sj - pos) for i in range(-len(self._karty) // 2, len(self._karty) // 2)]
 
         vys = []
+        #print("Pocet kariet list:", len(self._karty), "pocet kariet a:", len(a))
 
         if self._otocenie % 180:
             # menim y
             for i, karta in enumerate(self._karty):
-                vys.append((self._pozicia[0], self._poz_zac[1] + a[i]))
+                vys.append((self._poz_zac[0], self._poz_zac[1] + a[i]))
         else:
             # menim x
             for i, karta in enumerate(self._karty):
-                vys.append((self._poz_zac[0] + a[i], self._pozicia[1]))
+                vys.append((self._poz_zac[0] + a[i], self._poz_zac[1]))
 
         return vys
 

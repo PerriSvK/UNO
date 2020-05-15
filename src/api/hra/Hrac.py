@@ -14,6 +14,10 @@ class Hrac:
     def tah(self):
         return self._tah
 
+    @property
+    def id(self):
+        return self._id
+
     @tah.setter
     def tah(self, tah):
         self._tah = tah

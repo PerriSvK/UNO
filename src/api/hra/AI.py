@@ -1,5 +1,4 @@
-from time import sleep
-
+from api.util.Task import Task
 from src.api.hra.Farba import Farba
 from src.api.hra.Hrac import Hrac
 from src.api.hra.Pravidla import Pravidla
@@ -20,7 +19,7 @@ class AI(Hrac):
         self._tah = tah
 
     def urob_tah(self):
-        print("TAH")
+        #print("TAH")
         odh_k = self._hra.odhadzovaci().peek()
 
         tt = False
@@ -28,7 +27,7 @@ class AI(Hrac):
         for karta in self._ruka.karty():
             if karta.farba == odh_k.farba:
                 #self._okno.canvas.delete(karta.id)
-                Pravidla.vykonaj_akciu(self._hra, karta)
+                self._okno.handler.program.scheduler.add_task(Task(Pravidla.vykonaj_akciu, [self._hra, karta]), 2)
                 self._hra.odhadzovaci().pridaj_kartu(karta)
                 self._ruka.odstran_kartu(karta)
                 tt = True
@@ -37,7 +36,7 @@ class AI(Hrac):
         for karta in self._ruka.karty():
             if karta.hodnota == odh_k.hodnota:
                 #self._okno.canvas.delete(karta.id)
-                Pravidla.vykonaj_akciu(self._hra, karta)
+                self._okno.handler.program.scheduler.add_task(Task(Pravidla.vykonaj_akciu, [self._hra, karta]), 2)
                 self._hra.odhadzovaci().pridaj_kartu(karta)
                 self._ruka.odstran_kartu(karta)
                 tt = True
@@ -46,7 +45,7 @@ class AI(Hrac):
         for karta in self._ruka.karty():
             if karta.farba == Farba.BLACK:
                 #self._okno.canvas.delete(karta.id)
-                Pravidla.vykonaj_akciu(self._hra, karta)
+                self._okno.handler.program.scheduler.add_task(Task(Pravidla.vykonaj_akciu, [self._hra, karta]), 2)
                 self._hra.odhadzovaci().pridaj_kartu(karta)
                 self._ruka.odstran_kartu(karta)
                 tt = True
@@ -55,7 +54,7 @@ class AI(Hrac):
         if odh_k.farba == Farba.BLACK:
             karta = self._ruka.vrchna()
             #self._okno.canvas.delete(karta.id)
-            Pravidla.vykonaj_akciu(self._hra, karta)
+            self._okno.handler.program.scheduler.add_task(Task(Pravidla.vykonaj_akciu, [self._hra, karta]), 2)
             self._hra.odhadzovaci().pridaj_kartu(karta)
             self._ruka.odstran_kartu(karta)
             tt = True
