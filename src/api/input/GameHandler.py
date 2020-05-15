@@ -24,6 +24,7 @@ class GameHandler(Handler):
                         if kar is not None:
                             self._program.obr[1].hra.odhadzovaci().pridaj_kartu(kar)
                             self._canvas.tag_raise(kar.id)
+                            self._program.obr[1].otoc_kartu(kar, 0, True, True)
                             anim = AnimInfo(None, kar, self._program.obr[1].odh_bal_poz, Anim.THROW, 10)
                             self._program.obr[1].pridaj_animaciu(anim)
                             Pravidla.vykonaj_akciu(self._program.obr[1].hra, kar)

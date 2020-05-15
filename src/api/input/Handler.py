@@ -27,3 +27,7 @@ class Handler:
 
     def event(self, event, typ, objekt):
         print(event, typ, objekt)
+
+    @property
+    def program(self):
+        return self._program

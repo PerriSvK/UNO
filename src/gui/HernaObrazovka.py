@@ -264,7 +264,17 @@ class HernaObrazovka(Obrazovka):
             karta.id = self._canvas.create_image(karta.pozicia, image=ca)
             karta.img = ca
 
-    def obrat_kartu(self, karta=None, hrac_id=0, funk=None, param=None):
+    def otoc_kartu(self, karta, hrac_id, rand=False, obrat=False):
+        self._canvas.delete(karta.id)
+        karta.img = None
+        img = self._ntk.karta(Farba.NONE, Hodnota.NONE) if not obrat else self._ntk.karta(karta.farba, karta.hodnota)
+        a = random.randrange(-10, 10) if rand else 0
+        img = img.rotate(hrac_id*90+a, expand=1, resample=Image.BICUBIC)
+        ca = ImageTk.PhotoImage(img)
+        karta.id = self._canvas.create_image(karta.pozicia, image=ca)
+        karta.img = ca
+
+    def obrat_kartu(self, karta=None, hrac_id=0, funk=None, param=None, rand=False):
         if karta is None:
             if param is not None:
                 karta = funk(param)
@@ -274,7 +284,8 @@ class HernaObrazovka(Obrazovka):
         self._canvas.delete(karta.id)
         karta.img = None
         img = self._ntk.karta(karta.farba, karta.hodnota)
-        img = img.rotate(0 if hrac_id is None else hrac_id*90, expand=1)
+        a = random.randrange(-10, 10) if rand else 0
+        img = img.rotate(0+a if hrac_id is None else hrac_id*90+a, expand=1, resample=Image.BICUBIC)
         ca = ImageTk.PhotoImage(img)
         karta.id = self._canvas.create_image(karta.pozicia, image=ca)
         karta.img = ca
@@ -316,6 +327,10 @@ class HernaObrazovka(Obrazovka):
     @property
     def odh_bal_poz(self):
         return self._odha_pos
+
+    @property
+    def handler(self):
+        return self._handler
 
     def nova_hra(self):
         self._koniec = False

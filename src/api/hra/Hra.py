@@ -1,3 +1,6 @@
+from api.util.Task import Task
+from gui.core.Anim import Anim
+from gui.core.AnimInfo import AnimInfo
 from src.api.hra.AI import AI
 from src.api.hra.Hrac import Hrac
 from src.api.hra.Karta import Karta
@@ -55,9 +58,9 @@ class Hra:
             return
 
         #self._hraci[self._tah].tah = False
-        tah_old = self._tah
         dalsi_tah = (self._tah + self._move_c*self._smer) % len(self._hraci)
-        # self._move_c = 1
+        self._move_c = 1
+
         # print("Hrac", tah_old, "dohral. Polozena karta je:", self._odhadzovaci.peek().farba, self._odhadzovaci.peek().hodnota, "ide hrac", self._tah)
         # if self._tah == tah_old:
         #     self.dalsi_hrac()
@@ -91,6 +94,7 @@ class Hra:
             anim = self._hraci[self._tah].animacie_tahu(False)
             for a in anim:
                 self._okno.pridaj_animaciu(a, True)
+
         self._tah = tah
         print("Nastavujem tah na:", tah)
         self._hraci[self._tah].tah = True
@@ -100,8 +104,26 @@ class Hra:
             print("Pridavam animaciu", a)
             self._okno.pridaj_animaciu(a, True, 1)
 
+        if type(self._hraci[self._tah]) is AI:
+            self._okno.handler.program.scheduler.add_task(Task(self.urob_ai_tah, []), 2*60)
+
     def hrac_po_smere(self):
         return self._hraci[(self._tah + self._smer) % len(self._hraci)]
+
+    def urob_ai_tah(self):
+        karta, vys = self._hraci[self._tah].urob_tah()
+        self._okno.canvas.tag_raise(karta.id)
+        if vys:
+            self._okno.obrat_kartu(karta, self._tah, rand=True)
+            anim = AnimInfo(self._tah, karta, self._okno.odh_bal_poz, Anim.THROW, 10)
+            self._okno.pridaj_animaciu(anim)
+        else:
+            self._okno.otoc_kartu(karta, self._tah)
+            anim = AnimInfo(self._tah, karta, self._hraci[self._tah].ruka().pozicia, Anim.PICK, 10)
+            self._okno.pridaj_animaciu(anim)
+
+        self._okno.handler.program.scheduler.add_task(Task(self._okno.uprac_ruku, [self._tah]), 30)
+        self._okno.handler.program.scheduler.add_task(Task(self.dalsi_hrac, []), 2 * 60)
 
     @property
     def vyherca(self):
