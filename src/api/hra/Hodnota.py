@@ -16,5 +16,8 @@ class Hodnota(Enum):
     SKIP = 10
     REV = 11
     PLUS2 = 12
-    PLUS4 = 13
-    ZMENA = 14
+    PLUS4 = 14
+    ZMENA = 19
+
+    # def __eq__(self, other):
+    #     return self.value == other.value

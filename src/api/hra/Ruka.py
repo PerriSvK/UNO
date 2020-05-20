@@ -1,3 +1,4 @@
+from src.api.hra.Farba import Farba
 from src.api.hra.Stack import Stack
 
 
@@ -72,5 +73,13 @@ class Ruka(Stack):
             for i, karta in enumerate(self._karty):
                 karta.pozicia = self._poz_zac[0]+a[i], self._pozicia[1]
                 print("nova poz:", karta.pozicia)
+
+    def najviac_farba(self):
+        a = {Farba.RED:0, Farba.GREEN:0, Farba.BLUE:0, Farba.YELLOW:0}
+        for k in self._karty:
+            if k.farba in a.keys():
+                a[k.farba] += 1
+
+        return max(a, key=a.get)
 
     # TODO zoradenie

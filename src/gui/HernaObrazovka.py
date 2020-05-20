@@ -3,11 +3,10 @@ import random
 from PIL import ImageTk
 from PIL import Image
 
-from api.hra.Karta import Karta
+from src.api.hra.Karta import Karta
 from api.util.Task import Task
 from gui.core.Anim import Anim
 from gui.core.AnimInfo import AnimInfo
-from src.api.hra.AI import AI
 from src.api.hra.Farba import Farba
 from src.api.hra.Hodnota import Hodnota
 from src.api.hra.Hra import Hra
@@ -37,6 +36,7 @@ class HernaObrazovka(Obrazovka):
         self._hrac_poz_tah = [(400, 550), (750, 300), (400, 50), (50, 300)]
         self._koniec = False
         self._anim_list = []
+        self._farby = []
 
     def def_nastavenia(self):
         self._n = 0
@@ -238,3 +238,26 @@ class HernaObrazovka(Obrazovka):
         self._koniec = True
         self._canvas.delete("all")
         self._handler.ukonci_hru()
+
+    def zobraz_farby(self, karta):
+        p = [(0, -0.145), (0.3, 0), (0, 0.145), (-0.3, 0)]
+        v = []
+        for farba in Farba.RED, Farba.BLUE, Farba.GREEN, Farba.YELLOW:
+            img = self._ntk.karta(farba, karta.hodnota)
+            k = Karta(farba, karta.hodnota, cislo=len(v))
+            k.pozicia = self._odha_pos[0]+p[len(v)][0]*Karta.VELKOST_X, self._odha_pos[1]+p[len(v)][1]*Karta.VELKOST_Y
+            ca = ImageTk.PhotoImage(img)
+            k.id = self._canvas.create_image(k.pozicia, image=ca)
+            k.img = ca
+            self._handler.zaregistruj(k, "<Button-1>")
+            v.append(k)
+
+        self._farby = v
+
+    @property
+    def farby(self):
+        return self._farby
+
+    @farby.setter
+    def farby(self, farby):
+        self._farby = farby

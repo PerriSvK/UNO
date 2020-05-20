@@ -46,9 +46,11 @@ class AI(Hrac):
             if karta.farba == Farba.BLACK:
                 #self._okno.canvas.delete(karta.id)
                 self._okno.handler.program.scheduler.add_task(Task(Pravidla.vykonaj_akciu, [self._hra, karta]), 2)
-                self._hra.odhadzovaci().pridaj_kartu(karta)
+
                 self._ruka.odstran_kartu(karta)
-                tt = True
+                ff = self._ruka.najviac_farba()
+                karta.farba = ff
+                self._hra.odhadzovaci().pridaj_kartu(karta)
                 return karta, True
 
         if odh_k.farba == Farba.BLACK:

@@ -8,3 +8,6 @@ class Farba(Enum):
     GREEN = 2
     BLUE = 3
     YELLOW = 4
+
+    # def __eq__(self, other):
+    #     return self.value == other.value

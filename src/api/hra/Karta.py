@@ -18,6 +18,10 @@ class Karta(Objekt):
     def farba(self):
         return self._farba
 
+    @farba.setter
+    def farba(self, farba):
+        self._farba = farba
+
     @property
     def hodnota(self):
         return self._hodnota

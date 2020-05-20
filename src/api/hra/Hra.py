@@ -14,7 +14,7 @@ class Hra:
         # napln karty
         self._tahaci = Stack(Karta.balicek())
         self._tahaci.miesat()
-        self._vstup = False
+        self._vstup = 0
         self._odhadzovaci = Stack()
         self._tah = None
         self._smer = 1
@@ -109,7 +109,7 @@ class Hra:
         if type(self._hraci[self._tah]) is AI:
             self._okno.handler.program.scheduler.add_task(Task(self.urob_ai_tah, []), 1*60+30)
         else:
-            self._vstup = True
+            self._vstup = 1
 
     def hrac_po_smere(self):
         return self._hraci[(self._tah + self._smer) % len(self._hraci)]
