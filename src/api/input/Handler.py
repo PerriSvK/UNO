@@ -18,6 +18,15 @@ class Handler:
 
             self._canvas.tag_bind(objekt.id, typ, lambda event: self.event(event, typ, objekt))
 
+    def zaregistruj_raw(self, objekt, typ):
+        if self._objekty.__contains__(objekt):
+            ind = self._objekty.index(objekt)
+        else:
+            ind = len(self._objekty)
+            self._objekty.append(objekt)
+
+        objekt.bind(typ, lambda event: self.event(event, typ, objekt))
+
     def odregistruj(self, objekt, typ):
         if objekt.id >= 0:
             if self._objekty.__contains__(objekt):

@@ -13,6 +13,7 @@ class GameHandler(Handler):
         super().__init__(program, canvas)
 
     def event(self, event, typ, objekt):
+        print("EVENT:", event)
         if typ == "<Button-1>":
             #print("KLIK RAW")
             if self._program.obr[1].hra.hrac().tah:
@@ -66,6 +67,9 @@ class GameHandler(Handler):
 
                     if not self.program.obr[1].hra.vstup:
                         self._program.scheduler.add_task(Task(self._program.obr[1].hra.dalsi_hrac, []), 60)
+        elif typ == "<Esc>":
+            print("ESC", event)
+            self._program.zmen_obrazovku(3)
 
     def ukonci_hru(self):
         self._program.zmen_obrazovku(2)

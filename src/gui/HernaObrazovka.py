@@ -49,6 +49,7 @@ class HernaObrazovka(Obrazovka):
 
     def setup(self, handler=None):
         super().setup(handler)
+        self._canvas.focus_set()
         self.def_nastavenia()
         # pozadie
         self._canvas.create_rectangle(0, 0, 800, 600, fill="#f5910f")
@@ -84,6 +85,9 @@ class HernaObrazovka(Obrazovka):
         # zaregistrovanie do handler
         if handler is not None:
             handler.zaregistruj(self._hra.tahaci(), "<Button-1>")
+            #handler.zaregistruj(self.)
+            self._canvas.bind("<Escape>", lambda event: handler.event(event, "<Esc>", self._canvas))
+            #handler.zaregistruj_raw(self._canvas, "<Key>")
 
     def render(self):
         # animacie

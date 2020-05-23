@@ -1,7 +1,9 @@
 import tkinter
 
+from api.input.PauseHandler import PauseHandler
 from api.input.WinHandler import WinHandler
 from api.util.Scheduler import Scheduler
+from gui.PauseObrazovka import PauseObrazovka
 from gui.VyhernaObrazovka import VyhernaObrazovka
 from src.api.input.GameHandler import GameHandler
 from src.api.input.MenuHandler import MenuHandler
@@ -35,6 +37,11 @@ class Program:
         self.obr.append(VyhernaObrazovka(self.tk, False))
         self.handlers.append(WinHandler(self, self.obr[2].canvas))
 
+        ## pozastavena obrazovka
+        self.obr.append(PauseObrazovka(self.tk, False))
+        self.handlers.append(PauseHandler(self, self.obr[3].canvas))
+        self.obr[3].setup(self.handlers[3])
+
         # nastavenie obrazovky
         self.obri = 0
 
@@ -54,6 +61,7 @@ class Program:
 
     def zmen_obrazovku(self, obri):
         self.obr[self.obri].skry()
+        self.tk.focus_set()
         self.obr[obri].zobraz()
         self.obri = obri
 

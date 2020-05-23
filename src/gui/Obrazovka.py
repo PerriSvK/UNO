@@ -14,6 +14,7 @@ class Obrazovka:
     def zobraz(self):
         self._canvas.pack()
         self._aktivna = True
+        self._canvas.focus_set()
 
     def skry(self):
         self._canvas.pack_forget()
