@@ -1,6 +1,6 @@
 import random
 
-from PIL import ImageTk
+from PIL import ImageTk, ImageOps
 from PIL import Image
 
 from src.api.hra.Karta import Karta
@@ -20,6 +20,13 @@ class HernaObrazovka(Obrazovka):
         self._program = program
         self._hra = None  # type: Hra
         self._ntk = NacitavacTexturKariet("assets/cards/")
+        self._smer_tex_img = Image.open("assets/other/smer.png")
+        self._smer_tex_scale = self._smer_tex_img.resize((int(500*0.55), int(500*0.55)), Image.ANTIALIAS)
+        self._smer_tex_scale = ImageOps.mirror(self._smer_tex_scale)
+        self._smer_tex_cache = self._smer_tex_scale
+        self._smer_pi = ImageTk.PhotoImage(self._smer_tex_scale)
+        self._smer_a = 0
+        self._smer_id = -1
         self._ntk.nacitaj_karty(0.3)
         self._redraw = False
         self._n = 0
@@ -81,6 +88,11 @@ class HernaObrazovka(Obrazovka):
         self._program.scheduler.add_task(Task(self.vypis_kariet, []), s+40)
 
         self._program.scheduler.add_task(Task(self.start, []), s + 120)
+        self._program.scheduler.add_task(Task(self.otoc_smer_task, []), s + 120)
+
+
+        # vytvorenie smeru
+        self._program.scheduler.add_task(Task(self.vyrob_smer, []), s+120)
 
         # zaregistrovanie do handler
         if handler is not None:
@@ -140,6 +152,25 @@ class HernaObrazovka(Obrazovka):
             self._anim_list[0].append(anim)
         else:
             self._anim_list.append([anim])
+
+    def vyrob_smer(self):
+        self._smer_id = self._canvas.create_image(self._odha_pos, image=self._smer_pi)
+
+    def otoc_smer(self):
+        if self._smer_id >= 0:
+            #self._canvas.delete(self._smer_id)
+            self._smer_tex_cache = self._smer_tex_scale.rotate(int(self._smer_a), expand=1, resample=Image.BICUBIC)
+            self._smer_pi = ImageTk.PhotoImage(self._smer_tex_cache)
+            self._smer_a = (self._smer_a + 2*self._hra.smer) % 360
+            #self._smer_id = self._canvas.create_image(self._odha_pos, image=self._smer_pi)
+            self._canvas.itemconfigure(self._smer_id, image=self._smer_pi)
+
+    def obrat_smer(self):
+        self._smer_tex_scale = ImageOps.mirror(self._smer_tex_scale)
+
+    def otoc_smer_task(self):
+        self.otoc_smer()
+        self._program.scheduler.add_task(Task(self.otoc_smer_task, []), 3)
 
     def tah_karta_odh(self):
         karta = self._hra.tahaci().vrchna()
@@ -265,3 +296,13 @@ class HernaObrazovka(Obrazovka):
     @farby.setter
     def farby(self, farby):
         self._farby = farby
+
+    def zobraz(self):
+        super().zobraz()
+        try:
+            for task in self._hra.hold_task:
+                task.run()
+
+            self._hra.hold_task = []
+        except:
+            pass

@@ -20,6 +20,7 @@ class Hra:
         self._smer = 1
         self._move_c = 1
         self._vyherca = None
+        self._hold_task = []
 
     def setup(self):
         self._hraci.append(Hrac(id=0))
@@ -48,6 +49,10 @@ class Hra:
             # Koniec hry
             self._vyherca = self._tah
             self.koniec()
+            return
+
+        if not self._okno.aktivna:
+            self._hold_task.append(Task(self.dalsi_hrac, []))
             return
 
         #self._hraci[self._tah].tah = False
@@ -84,6 +89,7 @@ class Hra:
     def zmena_smeru(self):
         #print("ZMENA SMERU")
         self._smer *= -1
+        self._okno.obrat_smer()
 
     def skip(self):
         #print("SKIP")
@@ -93,8 +99,21 @@ class Hra:
     def tah(self):
         return self._tah
 
+    @property
+    def smer(self):
+        return self._smer
+
+    @property
+    def hold_task(self):
+        return self._hold_task
+
+    @hold_task.setter
+    def hold_task(self, task):
+        self._hold_task = task
+
     @tah.setter
     def tah(self, tah):
+
         if self._tah is not None:
             self._hraci[self._tah].tah = False
 
@@ -127,7 +146,12 @@ class Hra:
             self._okno.pridaj_animaciu(anim)
 
         self._okno.handler.program.scheduler.add_task(Task(self._okno.uprac_ruku, [self._tah]), 30)
-        self._okno.handler.program.scheduler.add_task(Task(self.dalsi_hrac, []), 1*60)
+        # if not self._okno.aktivna:
+        #     self._hold_task.append(Task(self.dalsi_hrac, []))
+        # else:
+        #     self._okno.handler.program.scheduler.add_task(Task(self.dalsi_hrac, []), 1*60)
+
+        self._okno.handler.program.scheduler.add_task(Task(self.dalsi_hrac, []), 1 * 60)
 
     @property
     def vyherca(self):
