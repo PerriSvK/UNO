@@ -18,6 +18,7 @@ class Program:
         self.tk.geometry("800x600")
         self.tk.resizable(0, 0)
         self.tk.title("UNO")
+        self.tk.iconbitmap("assets/other/icon.ico")
         self.handlers = []
         self.scheduler = Scheduler()
 
