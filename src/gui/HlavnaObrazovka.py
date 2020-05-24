@@ -11,8 +11,6 @@ class HlavnaObrazovka(Obrazovka):
 
     def setup(self, handler=None):
         super().setup(handler)
-        # pozadie
-        self._canvas.create_rectangle(0, 0, 800, 600, fill="#f5910f")
         # tlacitko hra -> docasne
         self._tlacitka.append(Tlacitko(self._canvas, "nova_hra", (100, 100), (600, 80), tkinter.PhotoImage(file="assets/gui/tlac/nova_hra-small-n-0.png"), tkinter.PhotoImage(file="assets/gui/tlac/nova_hra-small-s-0.png")))
         self._tlacitka.append(Tlacitko(self._canvas, "ukoncit", (100, 300), (600, 80), tkinter.PhotoImage(file="assets/gui/tlac/ukoncit-small-n-0.png"), tkinter.PhotoImage(file="assets/gui/tlac/ukoncit-small-s-0.png")))

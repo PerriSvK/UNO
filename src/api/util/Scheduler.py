@@ -11,7 +11,11 @@ class Scheduler:
             a = self._task_list[i]
             if a[1] == 0:
                 a[0].run()
-                self._task_list.pop(i)
+                if len(self._task_list) > i:
+                    self._task_list.pop(i)
             else:
                 a[1] -= 1
                 i += 1
+
+    def clear(self):
+        self._task_list = []

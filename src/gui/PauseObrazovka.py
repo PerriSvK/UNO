@@ -1,6 +1,6 @@
 import tkinter
 
-from src.gui.Obrazovka import Obrazovka
+from gui.Obrazovka import Obrazovka
 from src.gui.menu.Tlacitko import Tlacitko
 
 
@@ -13,8 +13,6 @@ class PauseObrazovka(Obrazovka):
 
     def setup(self, handler=None):
         super().setup(handler)
-        # pozadie
-        self._canvas.create_rectangle(0, 0, 800, 600, fill="#f5910f")
         # game over
         self._text = self._canvas.create_text(400, 200, text="HRA POZASTAVENÁ", fill="white", font=self._font)
 

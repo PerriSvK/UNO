@@ -16,8 +16,6 @@ class VyhernaObrazovka(Obrazovka):
     def setup(self, handler=None, hra=None):
         super().setup(handler)
         self._hra = hra
-        # pozadie
-        self._canvas.create_rectangle(0, 0, 800, 600, fill="#f5910f")
         # game over
         self._text_game_over = self._canvas.create_text(400, 200, text="KONIEC HRY", fill="white", font=self._font)
         # placeholder winner text

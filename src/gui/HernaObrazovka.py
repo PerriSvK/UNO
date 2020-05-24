@@ -3,6 +3,7 @@ import random
 from PIL import ImageTk, ImageOps
 from PIL import Image
 
+from gui.menu.Tlacitko import Tlacitko
 from src.api.hra.Karta import Karta
 from api.util.Task import Task
 from gui.core.Anim import Anim
@@ -25,6 +26,7 @@ class HernaObrazovka(Obrazovka):
         self._smer_tex_scale = ImageOps.mirror(self._smer_tex_scale)
         self._smer_tex_cache = self._smer_tex_scale
         self._smer_pi = ImageTk.PhotoImage(self._smer_tex_scale)
+        self._pause_tlac = None
         self._smer_a = 0
         self._smer_id = -1
         self._ntk.nacitaj_karty(0.3)
@@ -58,8 +60,6 @@ class HernaObrazovka(Obrazovka):
         super().setup(handler)
         self._canvas.focus_set()
         self.def_nastavenia()
-        # pozadie
-        self._canvas.create_rectangle(0, 0, 800, 600, fill="#f5910f")
 
         # pridanie textur kartam v tahacom baliku
         self.vytvorenie_textur_tahacieho()
@@ -94,9 +94,13 @@ class HernaObrazovka(Obrazovka):
         # vytvorenie smeru
         self._program.scheduler.add_task(Task(self.vyrob_smer, []), s+120)
 
+        # tlacitko pause
+        self._pause_tlac = Tlacitko(self._canvas, "pause", (25, 20), (int(500*0.05), int(500*0.05)), ImageTk.PhotoImage(Image.open("assets/other/pause.png").resize((int(500*0.05), int(500*0.05)), Image.ANTIALIAS)), None)
+
         # zaregistrovanie do handler
         if handler is not None:
             handler.zaregistruj(self._hra.tahaci(), "<Button-1>")
+            handler.zaregistruj(self._pause_tlac, "<Button-1>")
             #handler.zaregistruj(self.)
             self._canvas.bind("<Escape>", lambda event: handler.event(event, "<Esc>", self._canvas))
             #handler.zaregistruj_raw(self._canvas, "<Key>")
@@ -124,6 +128,8 @@ class HernaObrazovka(Obrazovka):
                 for karta in hrac.ruka().karty():
                     self._canvas.coords(karta.id, karta.pozicia)
 
+        self._canvas.tag_raise(self._pause_tlac.id)
+
     def vytvorenie_textur_tahacieho(self):
         for karta in self._hra.tahaci().karty()[::-1]:
             img = self._ntk.karta(Farba.NONE, Hodnota.NONE)
@@ -144,6 +150,9 @@ class HernaObrazovka(Obrazovka):
             print(karta.farba, karta.hodnota)
 
     def pridaj_kartu(self, hrac_id, inject=False):
+        if self._koniec:
+            return
+
         karta = self._hra.tahaci().vrchna()
         self._hra.hraci()[hrac_id].ruka().pridaj_kartu(karta)
         anim = AnimInfo(hrac_id, karta, self._hrac_poz_zak[hrac_id], Anim.PICK, 10)
@@ -154,6 +163,9 @@ class HernaObrazovka(Obrazovka):
             self._anim_list.append([anim])
 
     def vyrob_smer(self):
+        if self._koniec:
+            return
+
         self._smer_id = self._canvas.create_image(self._odha_pos, image=self._smer_pi)
 
     def otoc_smer(self):
@@ -173,12 +185,18 @@ class HernaObrazovka(Obrazovka):
         self._program.scheduler.add_task(Task(self.otoc_smer_task, []), 3)
 
     def tah_karta_odh(self):
+        if self._koniec:
+            return
+
         karta = self._hra.tahaci().vrchna()
         self._hra.odhadzovaci().pridaj_kartu(karta)
         anim = AnimInfo(None, karta, self._odha_pos, Anim.PICK, 10)
         self._anim_list.append([anim])
 
     def uprac_ruku(self, hrac_id):
+        if self._koniec:
+            return
+
         hrac = self._hra.hraci()[hrac_id]
         poz = hrac.ruka().nove_pozicie()
         #print("nova pozicie:", poz)
@@ -190,6 +208,9 @@ class HernaObrazovka(Obrazovka):
                 self._anim_list.append([anim])
 
     def otoc_karty(self, hrac_id):
+        if self._koniec:
+            return
+
         hrac = self._hra.hraci()[hrac_id]
         for karta in hrac.ruka().karty():
             self._canvas.delete(karta.id)
@@ -201,6 +222,9 @@ class HernaObrazovka(Obrazovka):
             karta.img = ca
 
     def otoc_kartu(self, karta, hrac_id, rand=False, obrat=False):
+        if karta is None or self._koniec:
+            return
+
         self._canvas.delete(karta.id)
         karta.img = None
         img = self._ntk.karta(Farba.NONE, Hodnota.NONE) if not obrat else self._ntk.karta(karta.farba, karta.hodnota)
@@ -217,7 +241,13 @@ class HernaObrazovka(Obrazovka):
             else:
                 karta = funk()
 
-        self._canvas.delete(karta.id)
+        if karta is None or self._koniec:
+            return
+
+        try:
+            self._canvas.delete(karta.id)
+        except:
+            pass
         karta.img = None
         img = self._ntk.karta(karta.farba, karta.hodnota)
         a = random.randrange(-10, 10) if rand else 0
@@ -240,6 +270,7 @@ class HernaObrazovka(Obrazovka):
             return
 
         self.render()
+        super().loop()
 
     @property
     def odh_bal_poz(self):
@@ -273,6 +304,7 @@ class HernaObrazovka(Obrazovka):
         self._koniec = True
         self._canvas.delete("all")
         self._handler.ukonci_hru()
+        self._program.scheduler.clear()
 
     def zobraz_farby(self, karta):
         p = [(0, -0.145), (0.3, 0), (0, 0.145), (-0.3, 0)]

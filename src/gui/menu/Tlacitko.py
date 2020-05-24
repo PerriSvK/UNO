@@ -17,7 +17,7 @@ class Tlacitko(Objekt):
         return self._nazov
 
     def stlacene(self, stlac=True):
-        if stlac:
+        if stlac and self._tex2 is not None:
             self._canvas.itemconfigure(self._id, image=self._tex2)
         else:
             self._canvas.itemconfigure(self._id, image=self._tex1)

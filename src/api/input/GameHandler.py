@@ -3,6 +3,7 @@ from api.hra.Hodnota import Hodnota
 from api.util.Task import Task
 from gui.core.Anim import Anim
 from gui.core.AnimInfo import AnimInfo
+from gui.menu.Tlacitko import Tlacitko
 from src.api.hra.Karta import Karta
 from src.api.hra.Pravidla import Pravidla
 from src.api.input.Handler import Handler
@@ -13,8 +14,11 @@ class GameHandler(Handler):
         super().__init__(program, canvas)
 
     def event(self, event, typ, objekt):
-        print("EVENT:", event)
         if typ == "<Button-1>":
+            if type(objekt) is Tlacitko:
+                self._program.zmen_obrazovku(3)
+                return
+
             #print("KLIK RAW")
             if self._program.obr[1].hra.hrac().tah:
                 #print("KLIK TAH vstup:", self.program.obr[1].hra.vstup, type(objekt))
@@ -68,7 +72,6 @@ class GameHandler(Handler):
                     if not self.program.obr[1].hra.vstup:
                         self._program.scheduler.add_task(Task(self._program.obr[1].hra.dalsi_hrac, []), 60)
         elif typ == "<Esc>":
-            print("ESC", event)
             self._program.zmen_obrazovku(3)
 
     def ukonci_hru(self):

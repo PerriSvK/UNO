@@ -66,10 +66,10 @@ class Karta(Objekt):
                     if hodnota != Hodnota.PLUS4 and hodnota != Hodnota.ZMENA and hodnota != Hodnota.NONE:
                         karty.append(Karta(farba, hodnota, i+1))
 
-            karty.append(Karta(Farba.BLACK, Hodnota.PLUS4))
-            karty.append(Karta(Farba.BLACK, Hodnota.PLUS4))
-            karty.append(Karta(Farba.BLACK, Hodnota.ZMENA))
-            karty.append(Karta(Farba.BLACK, Hodnota.ZMENA))
+            karty.append(Karta(Farba.BLACK, Hodnota.PLUS4, i+1))
+            karty.append(Karta(Farba.BLACK, Hodnota.PLUS4, i+1))
+            karty.append(Karta(Farba.BLACK, Hodnota.ZMENA, i+1))
+            karty.append(Karta(Farba.BLACK, Hodnota.ZMENA, i+1))
 
         return karty
 

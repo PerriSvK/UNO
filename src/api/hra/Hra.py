@@ -44,6 +44,9 @@ class Hra:
         return self._hraci
 
     def dalsi_hrac(self):
+        if self._vyherca is not None:
+            return
+
         # Kontrola, ci hra skoncila
         if len(self._hraci[self._tah].ruka()) == 0:
             # Koniec hry
@@ -113,6 +116,8 @@ class Hra:
 
     @tah.setter
     def tah(self, tah):
+        if self._vyherca is not None:
+            return
 
         if self._tah is not None:
             self._hraci[self._tah].tah = False
@@ -134,6 +139,9 @@ class Hra:
         return self._hraci[(self._tah + self._smer) % len(self._hraci)]
 
     def urob_ai_tah(self):
+        if self._vyherca is not None:
+            return
+
         karta, vys = self._hraci[self._tah].urob_tah()
         self._okno.canvas.tag_raise(karta.id)
         if vys:
