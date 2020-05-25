@@ -3,11 +3,11 @@ import random
 from PIL import ImageTk, ImageOps
 from PIL import Image
 
-from gui.menu.Tlacitko import Tlacitko
+from src.gui.menu.Tlacitko import Tlacitko
 from src.api.hra.Karta import Karta
-from api.util.Task import Task
-from gui.core.Anim import Anim
-from gui.core.AnimInfo import AnimInfo
+from src.api.util.Task import Task
+from src.gui.core.Anim import Anim
+from src.gui.core.AnimInfo import AnimInfo
 from src.api.hra.Farba import Farba
 from src.api.hra.Hodnota import Hodnota
 from src.api.hra.Hra import Hra

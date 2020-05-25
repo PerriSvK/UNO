@@ -1,6 +1,6 @@
 import random
 
-from gui.core.Objekt import Objekt
+from src.gui.core.Objekt import Objekt
 from src.api.hra.Karta import Karta
 
 

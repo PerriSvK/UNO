@@ -1,6 +1,6 @@
-from api.util.Task import Task
-from gui.core.Anim import Anim
-from gui.core.AnimInfo import AnimInfo
+from src.api.util.Task import Task
+from src.gui.core.Anim import Anim
+from src.gui.core.AnimInfo import AnimInfo
 from src.api.hra.Farba import Farba
 from src.api.hra.Hodnota import Hodnota
 

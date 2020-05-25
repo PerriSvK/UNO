@@ -1,6 +1,6 @@
 import tkinter
 
-from gui.Obrazovka import Obrazovka
+from src.gui.Obrazovka import Obrazovka
 from src.gui.menu.Tlacitko import Tlacitko
 
 

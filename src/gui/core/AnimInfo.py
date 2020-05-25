@@ -1,4 +1,4 @@
-from gui.core.Objekt import Objekt
+from src.gui.core.Objekt import Objekt
 
 
 class AnimInfo:

@@ -1,5 +1,5 @@
-from gui.core.Anim import Anim
-from gui.core.AnimInfo import AnimInfo
+from src.gui.core.Anim import Anim
+from src.gui.core.AnimInfo import AnimInfo
 from src.api.hra.Ruka import Ruka
 
 

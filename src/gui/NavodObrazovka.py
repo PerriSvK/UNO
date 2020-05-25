@@ -3,8 +3,8 @@ import tkinter
 from PIL import ImageTk
 from PIL import Image
 
-from gui.Obrazovka import Obrazovka
-from gui.menu.Tlacitko import Tlacitko
+from src.gui.Obrazovka import Obrazovka
+from src.gui.menu.Tlacitko import Tlacitko
 
 
 class NavodObrazovka(Obrazovka):

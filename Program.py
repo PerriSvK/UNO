@@ -1,12 +1,12 @@
 import tkinter
 
-from api.input.NavodHandler import NavodHandler
-from api.input.PauseHandler import PauseHandler
-from api.input.WinHandler import WinHandler
-from api.util.Scheduler import Scheduler
-from gui.NavodObrazovka import NavodObrazovka
-from gui.PauseObrazovka import PauseObrazovka
-from gui.VyhernaObrazovka import VyhernaObrazovka
+from src.api.input.NavodHandler import NavodHandler
+from src.api.input.PauseHandler import PauseHandler
+from src.api.input.WinHandler import WinHandler
+from src.api.util.Scheduler import Scheduler
+from src.gui.NavodObrazovka import NavodObrazovka
+from src.gui.PauseObrazovka import PauseObrazovka
+from src.gui.VyhernaObrazovka import VyhernaObrazovka
 from src.api.input.GameHandler import GameHandler
 from src.api.input.MenuHandler import MenuHandler
 from src.gui.HernaObrazovka import HernaObrazovka

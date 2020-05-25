@@ -1,4 +1,4 @@
-from api.util.Task import Task
+from src.api.util.Task import Task
 from src.api.hra.Farba import Farba
 from src.api.hra.Hrac import Hrac
 from src.api.hra.Pravidla import Pravidla
