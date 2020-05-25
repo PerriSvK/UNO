@@ -19,8 +19,11 @@ class VyhernaObrazovka(Obrazovka):
         # game over
         self._text_game_over = self._canvas.create_text(400, 200, text="KONIEC HRY", fill="white", font=self._font)
         # placeholder winner text
-        if self._hra is not None and self._hra.vyherca is not None:
-            vm = "Vyhral si!" if not self._hra.vyherca else f"Vyhrava hrac {self._hra.vyherca+1}"
+        if self._hra is not None:
+            if self._hra.vyherca is not None:
+                vm = "Vyhral si!" if not self._hra.vyherca else f"Vyhráva hráč {self._hra.vyherca+1}"
+            else:
+                vm = "Nie sú ďalšie karty"
             self._text_winner = self._canvas.create_text(400, 250, text=vm, fill="white", font=self._font)
 
         self._tlac = Tlacitko(self._canvas, "hlavne_menu", (100, 300), (600, 80), tkinter.PhotoImage(file="assets/gui/tlac/hlavne_menu-small-n-0.png"), tkinter.PhotoImage(file="assets/gui/tlac/hlavne_menu-small-s-0.png"))

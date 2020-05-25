@@ -21,6 +21,9 @@ class Pravidla:
             a = 0
             for i in range(2):
                 k = hra.tahaci().vrchna()
+                if k is None:
+                    return
+
                 hra.hrac_po_smere().ruka().pridaj_kartu(k)
                 hra.okno.handler.program.scheduler.add_task(Task(hra.okno.otoc_kartu, [k, hra.hrac_po_smere().id]), a)
                 anim = AnimInfo(hra.hrac_po_smere(), k, hra.hrac_po_smere().ruka().pozicia, Anim.FORCE_PICK, 10)
@@ -39,6 +42,9 @@ class Pravidla:
             a = 0
             for i in range(4):
                 k = hra.tahaci().vrchna()
+                if k is None:
+                    return
+
                 hra.hrac_po_smere().ruka().pridaj_kartu(k)
                 hra.okno.handler.program.scheduler.add_task(Task(hra.okno.otoc_kartu, [k, hra.hrac_po_smere().id]), a)
                 anim = AnimInfo(hra.hrac_po_smere(), k, hra.hrac_po_smere().ruka().pozicia, Anim.FORCE_PICK, 10)

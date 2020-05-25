@@ -62,28 +62,23 @@ class Hra:
         dalsi_tah = (self._tah + self._move_c*self._smer) % len(self._hraci)
         self._move_c = 1
 
-        # print("Hrac", tah_old, "dohral. Polozena karta je:", self._odhadzovaci.peek().farba, self._odhadzovaci.peek().hodnota, "ide hrac", self._tah)
-        # if self._tah == tah_old:
-        #     self.dalsi_hrac()
-        #     return
-
         # skontroluj, ci su karty v baliku
         if self._tahaci.peek() is None:
-            print("TOCIM BALIK")
-            karty = self.odhadzovaci().odtran_vsetky()
-
-            for karta in karty:
-                self._okno.otoc_kartu(karta, 0)
-                #self._okno.obrat_kartu(karta, 0)
-                anim = AnimInfo(None, karta, self._okno.tah_bal_poz, Anim.NONE, 50)
-                self._okno.pridaj_animaciu(anim, True)
-
-            self._tahaci.pridaj_karty(karty)
-
-            for karta in self._tahaci.karty()[::-1]:
-                self._okno.canvas.tag_raise(karta.id)
-
-            self._tahaci.miesat()
+            self.koniec()
+            # print("TOCIM BALIK")
+            # karty = self.odhadzovaci().odtran_vsetky()
+            #
+            # for karta in karty:
+            #     self._okno.otoc_kartu(karta, 0)
+            #     anim = AnimInfo(None, karta, self._okno.tah_bal_poz, Anim.NONE, 50)
+            #     self._okno.pridaj_animaciu(anim, True)
+            #
+            # self._tahaci.pridaj_karty(karty)
+            #
+            # for karta in self._tahaci.karty()[::-1]:
+            #     self._okno.canvas.tag_raise(karta.id)
+            #
+            # self._tahaci.miesat()
 
         #self._hraci[self._tah].tah = True
         self.tah = dalsi_tah
