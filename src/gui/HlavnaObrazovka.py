@@ -13,7 +13,8 @@ class HlavnaObrazovka(Obrazovka):
         super().setup(handler)
         # tlacitko hra -> docasne
         self._tlacitka.append(Tlacitko(self._canvas, "nova_hra", (100, 100), (600, 80), tkinter.PhotoImage(file="assets/gui/tlac/nova_hra-small-n-0.png"), tkinter.PhotoImage(file="assets/gui/tlac/nova_hra-small-s-0.png")))
-        self._tlacitka.append(Tlacitko(self._canvas, "ukoncit", (100, 300), (600, 80), tkinter.PhotoImage(file="assets/gui/tlac/ukoncit-small-n-0.png"), tkinter.PhotoImage(file="assets/gui/tlac/ukoncit-small-s-0.png")))
+        self._tlacitka.append(Tlacitko(self._canvas, "navod", (100, 250), (600, 80), tkinter.PhotoImage(file="assets/gui/tlac/navod-small-n-0.png"), tkinter.PhotoImage(file="assets/gui/tlac/navod-small-s-0.png")))
+        self._tlacitka.append(Tlacitko(self._canvas, "ukoncit", (100, 400), (600, 80), tkinter.PhotoImage(file="assets/gui/tlac/ukoncit-small-n-0.png"), tkinter.PhotoImage(file="assets/gui/tlac/ukoncit-small-s-0.png")))
 
         # zaregistrovanie do handler
         if handler is not None:

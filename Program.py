@@ -1,8 +1,10 @@
 import tkinter
 
+from api.input.NavodHandler import NavodHandler
 from api.input.PauseHandler import PauseHandler
 from api.input.WinHandler import WinHandler
 from api.util.Scheduler import Scheduler
+from gui.NavodObrazovka import NavodObrazovka
 from gui.PauseObrazovka import PauseObrazovka
 from gui.VyhernaObrazovka import VyhernaObrazovka
 from src.api.input.GameHandler import GameHandler
@@ -42,6 +44,21 @@ class Program:
         self.obr.append(PauseObrazovka(self.tk, False))
         self.handlers.append(PauseHandler(self, self.obr[3].canvas))
         self.obr[3].setup(self.handlers[3])
+
+        ## navod 1
+        self.obr.append(NavodObrazovka(self.tk, 1))
+        self.handlers.append(NavodHandler(self, self.obr[4].canvas))
+        self.obr[4].setup(self.handlers[-1])
+
+        ## navod 2
+        self.obr.append(NavodObrazovka(self.tk, 2))
+        self.handlers.append(NavodHandler(self, self.obr[5].canvas))
+        self.obr[5].setup(self.handlers[-1])
+
+        ## navod 3
+        self.obr.append(NavodObrazovka(self.tk, 3))
+        self.handlers.append(NavodHandler(self, self.obr[6].canvas))
+        self.obr[6].setup(self.handlers[-1])
 
         # nastavenie obrazovky
         self.obri = 0
