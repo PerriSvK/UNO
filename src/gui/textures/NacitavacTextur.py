@@ -17,5 +17,3 @@ class NacitavacTextur:
                 res.append(self.strihaj(x*Karta.VELKOST_X, y*Karta.VELKOST_Y, Karta.VELKOST_X, Karta.VELKOST_Y))
 
         return res
-
-    # @staticmethod
